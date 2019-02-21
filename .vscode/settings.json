@@ -1,0 +1,6 @@
+{
+    "git.enableCommitSigning": true,
+    "git.autofetch": true,
+    "git.autoStash": true,
+    "git.rebaseWhenSync": true
+}

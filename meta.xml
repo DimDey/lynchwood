@@ -1,0 +1,89 @@
+<meta>
+	<info author="Jabka Dev" type="gamemode" />
+	<min_mta_version client="1.5.6" server="1.5.4-9.11413"/>
+
+	<script src="Shared/global_functions.lua" type="shared" />
+
+	<file src="Images/player.png" type="client" />
+	<file src="Images/mask.png" type="client" />
+	<file src="Images/auth-logo.png" type="client" />
+	<file src="Images/avatar-mask.png" type="client" />
+	<file src="Images/btn-inactive.png" type="client" />
+	<file src="Images/btn-active.png" type="client" />
+	<file src="Images/checkbox-inactive.png" type="client" />
+	<file src="Images/checkbox-active.png" type="client" />
+	<file src="Images/davatar.jpg" type="client" />
+	<file src="Images/mask-error.png" type="client" />
+	<file src="Images/mask-success.png" type="client" />
+	<file src="Images/mask-add.png" type="client" />
+	<file src="Images/radar_map.jpg" type="client" />
+	<file src="Images/wallet.png" type="client" />
+	<file src="Images/wallet-mask.png" type="client" />
+	<file src="Images/icons.png" type="client" />
+	<file src="Images/shaderpallete.png" type="client" />
+	<file src="Images/tablist/tabmask.png" type="client" />
+	<file src="Images/mask-btnshadow.png" type="client" />
+	<file src="Images/disc.png" type="client" />
+	<file src="Images/needle.png" type="client" />
+	<file src="Images/biglogo.png" type="client" />
+	<file src="Images/icon-sleep.png" type="client" />
+
+
+	<file src="Fonts/Montserrat-Light.ttf" />
+	<file src="Fonts/Montserrat-ExtraLight.ttf" />
+	<file src="Fonts/Montserrat-Bold.ttf" />
+	<file src="Fonts/Montserrat-Medium.ttf" />
+	<file src="Fonts/Montserrat-Regular.ttf" />
+	
+	<script src="Client/global_variables.lua" type="client" />
+	<script src="Client/global_functions.lua" type="client" />
+	<script src="Client/pop-ups.lua" type="client" />
+	<script src="Client/dx-system.lua" type="client" />
+	<script src="Client/chat_general.lua" type="client" />
+	<script src="Client/chat_scroll.lua" type="client" />
+	<script src="Client/chat_rendertarget.lua" type="client" />
+	<script src="Client/map.lua" type="client" />
+	<script src="Client/player_tag.lua" type="client" />
+	<script src="Client/afk_system.lua" type="client" />
+	<script src="Client/main_auth.lua" type="client" />
+	<script src="Client/login_blur.lua" type="client" />
+	<script src="Client/colorcorrection.lua" type="client" />
+	<script src="Client/hud.lua" type="client" />
+	<script src="Client/autosys.lua" type="client" />
+	<script src="Client/tab_list.lua" type="client" />
+	<script src="Client/audio_sys.lua" type="client" />
+	<script src="Client/house_building.lua" type="client" />
+
+	<script src="Shared/fractions.lua" type="shared" />
+
+	<script src="Server/main.lua" type="server"/>
+	<script src="Server/idsys.lua" type="server"/>
+	<script src="Server/paydaysys.lua" type="server"/>
+	<script src="Server/database.lua" type="server"/>
+	<script src="Server/commands.lua" type="server" />
+	<script src="Server/functions.lua" type="server" />
+	<script src="Server/login.lua" type="server" />
+	<script src="Server/faction.lua" type="server"/>
+	<script src="Server/chat_functions.lua" type="shared" />
+	<script src="Server/weather.lua" type="server" />
+	<script src="Server/autosys.lua" type="server" />
+
+	<map src="Maps/derevyshka.map" dimension="0"></map>
+
+	<file src="Shaders/mta-helper.fx" type="client" />
+	<file src="Shaders/dBlurH.fx" type="client" />
+	<file src="Shaders/dBlurV.fx" type="client" />
+	<file src="Shaders/car_refgene.fx" type="client" />
+	<file src="Shaders/car_refgrun.fx" type="client" />
+	<file src="Shaders/car_refgrunL.fx" type="client" />
+	<file src="Shaders/addPalette.fx" type="client" />
+	<file src="Shaders/mask.fx" type="client" />
+	<file src="Shaders/smooth.fx" type="client" />
+	<file src="Shaders/login_blur.c" type="client" />
+
+	<file src="Audio/lesden.mp3" type="server" />
+	<file src="Audio/lesnoch.mp3" type="server" />
+	<file src="Audio/serdce.mp3" type="server" />
+	<file src="Audio/zvonvushax.mp3" type="server" />
+	<oop>true</oop>
+</meta>

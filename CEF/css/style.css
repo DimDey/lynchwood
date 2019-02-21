@@ -1,0 +1,175 @@
+
+
+body {
+	background-color: rgba(255,255,255,0.1);
+	background-repeat: no-repeat;
+	background-size: 1920px 1080px;
+}
+
+
+
+header {
+  position: absolute;
+  top: 0;
+	margin-left: -9px;
+	margin-top: -8px;
+	background-image: url(../images/1.png);
+	background-repeat: no-repeat;
+  width: 1921px;
+  height: 144px;  
+    
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  margin-left: -9px;
+	background-image: url(../images/1.png);
+	background-repeat: no-repeat;
+  width: 1921px;
+  height: 144px; 
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.row:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.menu-img {
+  position: absolute;
+  margin-left: 115px;
+  margin-top: 126px;
+}
+
+.logo {
+  position: absolute;
+  top: 222px;
+  margin-left: 194px;
+}
+
+
+
+.voit {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  top: 360px;
+  margin-left: 304px;
+  color: #ffffff;
+}
+
+.voit a { 
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.voit a:hover {
+  color: #15b919;
+}
+
+.reg {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  top: 430px;
+  margin-left: 239px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.reg a { 
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.reg a:hover {
+  color: #15b919;
+}
+
+.vubor {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  top: 488px;
+  margin-left: 187px;
+  color: #ffffff;
+}
+
+.vubor a { 
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.vubor a:hover {
+  color: #15b919;
+}
+
+.nast {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  top: 546px;
+  margin-left: 256px;
+  color: #ffffff;
+}
+
+.nast a { 
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.nast a:hover {
+  color: #15b919;
+}
+
+.exit {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  top: 604px;
+  margin-left: 299px;
+  color: #ffffff;
+}
+
+.exit a { 
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.exit a:hover {
+  color: #15b919;
+}
+
+.ver {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  top: 780px;
+  margin-left: 320px;
+  color: #ffffff;
+}
+
+.error {
+	  position: absolute;
+	  left: 1589px;
+	  bottom: 194px;
+}
+
+.error101 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13pt;
+  color: #ffffff;
+  white-space: pre;
+  position: absolute;
+  left: 1630px;
+  bottom: 195px;
+}
+
