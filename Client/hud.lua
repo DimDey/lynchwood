@@ -1,6 +1,6 @@
 local walletrectangle = dxCreateRoundedTexture(screenW * 0.8931, screenH * 0.1178, screenW * 0.1215, screenH * 0.0400,12,"Images/wallet-mask.png")
 function dxDrawLogo()
-    if isLogged(lp) then
+    if isLogged(lp) and not(PlayerSettings["camerafaded"]) then
         dxDrawImage(screenW * 0.8931, screenH * 0.1178, screenW * 0.1215, screenH * 0.0400,walletrectangle)
 
         dxDrawImage(screenW * 0.8479, screenH * -0.0644, 219, 219, "Images/biglogo.png" )

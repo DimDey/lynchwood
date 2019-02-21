@@ -65,7 +65,7 @@ end
 
 
 function dxRenderMainTarget()
-    if isElement(renderChatTarget) then
+    if isElement(renderChatTarget) and not(PlayerSettings["camerafaded"]) then
         dxDrawImage(0,0,700,250,renderChatTarget, 0, 0, 0, tocolor(255,255,255,255), true)
     end
 end
