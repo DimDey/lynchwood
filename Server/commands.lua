@@ -159,10 +159,13 @@ function cmd_walk( )
 	setPedAnimation(source, "ped", walkstyle, true)
 	setTimer( function(pl)
 		setPedAnimation(pl, "ped", walkstyle, 1,false)
-		bindKey(pl,"lshift", "down", function(pl)
-			setPedAnimation(pl,"ped",walkstyle,0,false,false,false,false)
-		end)
+		bindKey(pl,"lshift", "down", BindStopwalk )
 	end, 50, 1, source )
+end
+
+function BindStopwalk(pl)
+	setPedAnimation(pl,"ped",walkstyle,0,false,false,false,false)
+	unbindKey(pl,"lshift","down",BindStopwalk)
 end
 
 function cmd_q( )

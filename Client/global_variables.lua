@@ -57,14 +57,6 @@ font_montlight = getFont("Fonts/Montserrat-ExtraLight.ttf",9)
 font_montlightX = getFont("Fonts/Montserrat-ExtraLight.ttf",12)
 
 
-PlayerSettings = {
-	["maptoggle"] = false,
-	["tabtoggle"] = false,
-	["chattoggle"] = false,
-	["camerafaded"] = false
-}
-
-
 Colors = {
 	["general"] = tocolor(21,185,25),
 	["grey"] = tocolor(234,234,234)

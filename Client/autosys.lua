@@ -147,7 +147,7 @@ function onVehDamage(attacker,weap,loss,atx,aty,atz)
             end
             addEventHandler("onClientRender",root,dxDrawIncidente)
             if bgmusic ~= nil then stopSound(bgmusic) end
-            PlayerSettings["camerafaded"] = true
+            setPlayerComponentVisible("camerafaded", true)
         end
     end
     if getElementHealth(source) <= 400 and getElementData(source, "broken") ~= 1 then
@@ -166,6 +166,7 @@ function createVehTimer(interval)
         toggleControl ( "handbrake", true ) -- disable the handbrake key
         toggleControl ( "enter_exit", true )
         removeEventHandler("onClientRender",root,dxDrawIncidente)
+        setPlayerComponentVisible("camerafaded", false)
     end,interval,1)
 end
 
@@ -224,8 +225,13 @@ end
 addEventHandler("onClientVehicleEnter", root,
 	function(thePlayer)
 		if thePlayer == localPlayer then
-			showSpeedometer()
-		end
+            if getElementData(source, "broken") ~= 1 then
+                showSpeedometer()
+            
+            else
+                setVehicleEngineState(source,false)
+            end
+		end 
 	end
 )
 

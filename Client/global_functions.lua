@@ -3,7 +3,7 @@ hud_visible = true
 function showHud(btn, press)
 	if (press) then
 		if btn == "F7" then
-			local components = {"ammo","breath","clock","money","vehicle_name","weapon"}
+			local components = {"ammo","breath","clock","vehicle_name","weapon"}
 			if hud_visible then
 				for k,v in pairs(components) do
 					setPlayerHudComponentVisible( v, false )
@@ -122,3 +122,18 @@ function copyToClipboard()
 end
 addEvent("copyPosToClipboard",true)
 addEventHandler("copyPosToClipboard",root,copyToClipboard)
+
+PlayerComps = {
+	["maptoggle"] = false,
+	["tabtoggle"] = false,
+	["chattoggle"] = false,
+	["camerafaded"] = false
+}
+
+function getPlayerComponentVisible(comp)
+	return PlayerComps[comp]
+end
+
+function setPlayerComponentVisible(comp,visible)
+	PlayerComps[comp] = visible
+end

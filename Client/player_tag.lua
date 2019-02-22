@@ -23,7 +23,7 @@ function renderTagStreamedInPlayers( )
 	for k,v in ipairs(getElementsByType("player",root,true)) do
 		if isLogged(v) and getElementData(v,"id")  then
 			--if v ~= lp then
-				if not(PlayerSettings["camerafaded"]) then
+				if getPlayerComponentVisible("camerafaded") == false then
 					dxDrawTextOnElement(v,getElementData( v,"nick").." [ "..getElementData(v,"id").." ]",1,20,255,255,255)
 					if getElementData(v,"afk") then
 						afktime = math.floor((getTickCount() - getElementData(v, "afk")) / 1000)
