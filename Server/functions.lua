@@ -47,14 +47,3 @@ function getPlayer(player)
     end
 	return player
 end
-
-markers = {}
-
-function markers:create(x,y,z,onEnter,onExit,...)
-	local marker = createMarker(x,y,z,...)
-	if onEnter and onExit then
-		addEventHandler("onMarkerHit",marker,onEnter)
-		addEventHandler("onMarkerLeave",marker,onExit)
-	end
-	return marker
-end	

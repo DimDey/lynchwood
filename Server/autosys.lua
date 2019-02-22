@@ -63,13 +63,9 @@ end
 addEventHandler("onPlayerVehicleExit",root,updateVehData)
 
 function onCarshopMarkerHit(el)
-	if getElementType(el) == "player" then
-		triggerClientEvent(el,"openCarshopMenu",el,carshops[getElementData(source,"tableid")])
+	if getElementType(source) == "player" then
+		triggerClientEvent(source,"openCarshopMenu",source,carshops[getElementData(el,"shopid")])
 	end
-end
-
-function onCarshopMarkerExit(el)
-
 end
 
 function parseCarshops()
@@ -81,10 +77,12 @@ function parseCarshops()
 			if result then
 				for col,row in ipairs(result) do
 					local settings = fromJSON(row.settings)
-					local mark = markers:create(settings["x"], settings["y"], settings["z"], onCarshopMarkerHit, onCarshopMarkerExit, "cylinder", 1)
+					local mark = createMarker(settings["x"], settings["y"], settings["z"],"cylinder", 1)
+					addEventHandler("onPlayerMarkerHit",root, onCarshopMarkerHit)
 					setElementData(mark,"shopid",col)
 					carshops[col] = settings
 				end
+				outputServerLog("Parsing carshops: SUCCESS!")
 			else
 				outputServerLog("Parsing carshops: FAILED!")
 			end

@@ -243,8 +243,13 @@ addEventHandler("onClientVehicleStartExit", root,
 	end
 )
 
-function onCarshopMarkerHit()
-    outputDebugString("TEST")
+function onCarshopMarkerHit(marker)
+    addEventHandler("onClientRender",root,drawCarShop)
+    carshopdata = marker
 end
 addEvent("openCarshopMenu",true)
 addEventHandler("openCarshopMenu",root,onCarshopMarkerHit)
+
+function drawCarShop()
+    dxDrawText(carshopdata["shopname"],0,0)
+end
