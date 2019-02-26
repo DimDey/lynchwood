@@ -137,3 +137,45 @@ end
 function setPlayerComponentVisible(comp,visible)
 	PlayerComps[comp] = visible
 end
+local sx,sy = guiGetScreenSize()
+local sw,sh = 1440,900
+
+function relative(x,y,w,h)
+    local x,y,w,h = x/sx*sw,y/sy*sh,w/sx*sw,h/sy*sh
+    return x,y,w,h
+end
+
+function showGrid()
+	if isEventHandlerAdded("onClientRender",root,dxDrawGrid) then
+		removeEventHandler("onClientRender",root,dxDrawGrid)
+	else
+		
+	end
+end
+addEvent("showGrid",true)
+addEventHandler("showGrid",root,showGrid)
+
+function dxDrawGrid()
+	dxDrawLine(screenW * 0.1,0,screenW * 0.1, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.2,0,screenW * 0.2, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.3,0,screenW * 0.3, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.4,0,screenW * 0.4, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.5,0,screenW * 0.5, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.6,0,screenW * 0.6, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.7,0,screenW * 0.7, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.8,0,screenW * 0.8, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 0.9,0,screenW * 0.9, screenH,tocolor(71,241,241))
+	dxDrawLine(screenW * 1,0,screenW * 1, screenH,tocolor(71,241,241))
+
+	dxDrawLine(0, screenH * 0.1, screenW, screenH * 0.1, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.2, screenW, screenH * 0.2, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.3, screenW, screenH * 0.3, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.4, screenW, screenH * 0.4, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.5, screenW, screenH * 0.5, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.6, screenW, screenH * 0.6, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.7, screenW, screenH * 0.7, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.8, screenW, screenH * 0.8, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 0.9, screenW, screenH * 0.9, tocolor(71,241,241))
+	dxDrawLine(0, screenH * 001, screenW, screenH * 001, tocolor(71,241,241))
+end
+addEventHandler("onClientRender",root,dxDrawGrid)

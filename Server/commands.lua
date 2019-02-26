@@ -335,3 +335,7 @@ function cmd_startlayout()
 		triggerClientEvent(client,"startBuilding",client)
 	--end
 end
+
+function cmd_drawgrid()
+	triggerClientEvent(client,"showGrid",client)
+end

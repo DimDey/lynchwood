@@ -177,12 +177,15 @@ function dxDrawIncidente()
     local duration = endTime - incidentetime
     local progress = elapsedTime / duration
     local timeToEnd = endTime - now
-    local width, x = interpolateBetween ( 395, screenW * 0.3868, 0, 0, (screenW * 0.3868)+197.5, 0, progress, "Linear")
-
-    dxDrawText("БЕЗ СОЗНАНИЯ", screenW * 0.3806, screenH * 0.0233, 962, 69, white, 1, font_montmediumXX, "center", "center")
-    dxDrawImage(screenW * 0.5049, screenH * 0.0878, 61, 61, "Images/icon-sleep.png")
+    local width, x = interpolateBetween ( screenH * 0.27, screenW * 0.36, 0, 0, (screenW * 0.46)+197.5, 0, progress, "Linear")
+    if incidenteFont == nil then
+        incidenteFont = getFont("Fonts/Montserrat-Medium.ttf",50)
+        incidenteWidth = dxGetTextWidth("БЕЗ СОЗНАНИЯ",1,incidenteFont) / 10
+    end
+    dxDrawText("БЕЗ СОЗНАНИЯ", screenW * 0.46+incidenteWidth, screenH * 0.23, nil,nil, white, 1, incidenteFont, "center", "center")
+    dxDrawImage(screenW * 0.477, screenH * 0.27, 56, 56, "Images/icon-sleep.png")
     dxDrawRectangle(x, screenH * 0.1833, width, 2, Colors["general"])
-    dxDrawRectangle(screenW * 0.3868, screenH * 0.1833, 395, 2, tocolor(21,185,25,100))
+    dxDrawRectangle(screenW * 0.3868, screenH * 0.4, 395, 2, tocolor(21,185,25,100))
     dxDrawText(math.round((timeToEnd/1000),1), screenW * 0.4931, screenH * 0.1978, screenW * 0.5653, screenH * 0.2311, white, 1.00, font_montmediumXX, "center", "top", false, false, false, false, false)
 end
 
@@ -195,7 +198,7 @@ function drawNeedle()
     local odometer = getElementData(getPedOccupiedVehicle(localPlayer),"odometer")
 
     dxDrawImage(screenW * 0.7986, screenH * 0.6800, 256, 256, "Images/disc.png" )
-    dxDrawText(math.floor(vehSpeed), screenW * 0.8764, screenH * 0.8522, screenW * 0.9028, screenH * 0.8833, white, 1, font_montmediumL, "center", "center")
+    dxDrawText(math.floor(vehSpeed), screenW * 0.8764, screenH * 0.8522, screenW * 0.9028, screenH * 0.8833, white, 1, font_montmediumB, "center", "center")
     dxDrawImage(screenW * 0.7986, screenH * 0.6800, 256, 256, "Images/needle.png", vehSpeed-5, 0, 0, white, true)
     local zeros = ""
     local odometerfl = math.floor(odometer)

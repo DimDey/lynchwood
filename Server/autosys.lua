@@ -1,6 +1,6 @@
 function parseFactionVehicles(res)
 	if res == resorceRoot then
-		local query = dbQuery(parseFactionCallback,dbHandle,"SELECT * FROM `vehicles` WHERE `faction`")
+		local query = dbQuery(parseFactionCallback,dbHandle,"SELECT * FROM `vehicles` WHERE `frid`")
 		outputServerLog("Parsing faction vehicles...")
 	end
 end
