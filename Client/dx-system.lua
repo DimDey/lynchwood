@@ -235,3 +235,14 @@ function isPointInRect(x, y, rx, ry, rw, rh)
 		return false
 	end
 end
+
+--[[_dxDrawImage = dxDrawImage
+function dxDrawImage(posX, posY, width, height, relative, image, ...)
+    local relative = relative or false
+    if relative then
+        local x,y = (screenW * posX)-width, (screenH * posY)-height
+        _dxDrawImage(x,y,width, height, image, ...)
+    else
+        _dxDrawImage(posX, posY, width, height, image, ...)
+    end
+end]]

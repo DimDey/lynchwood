@@ -123,7 +123,7 @@ function checkAvatar()
 			getForumAvatar(DGS:dgsGetText(logEdit))
 			lastChangeText = 0
 		end
-	end
+	end 
 end
 
 function renderLogInPanel( )
@@ -134,7 +134,7 @@ function renderLogInPanel( )
 		DGS:dgsSetVisible(logBtn,true)
 		DGS:dgsSetVisible(regBtn,true)
 	elseif activewindow == "login" then
-		dxDrawText("ЛОГИН", screenW * 0.3826, screenH * 0.4678, screenW * 0.4542, screenH * 0.4922, tocolor(255, 255, 255, 255), 1.00, font_montregular)
+		dxDrawText("ЛОГИН", 0.38, screenH * 0.4678, screenW * 0.4542, screenH * 0.4922, tocolor(255, 255, 255, 255), 1.00, font_montregular)
         dxDrawText("ПАРОЛЬ", screenW * 0.3826, screenH * 0.5789, screenW * 0.4542, screenH * 0.6033, tocolor(255, 255, 255, 255), 1.00, font_montregular)
 
 		dxDrawText("<", screenW * 0.6035, screenH * 0.1922, screenW * 0.6340, screenH * 0.2200, tocolor(255, 255, 255, 255), 1.00, "clear", "center", "center")
@@ -318,14 +318,16 @@ function startLogIn(	)
 		responseData = fromJSON(responseData)
 		if type(errno) ~= "number" then
 			if responseData.success == true then
-				setElementData(lp,"forumid",responseData.user.user_id)
-				triggerServerEvent("getCharacters",localPlayer,responseData.user.user_id)
-				activewindow = "selectcharacters"
-				destroyElement(logEdit)
-				destroyElement(passEdit)
-				destroyElement(emailEdit)
-				destroyElement(logBtn)
-				destroyElement(regBtn)
+				if activewindow ~= "selectcharacters" then
+					setElementData(lp,"forumid",responseData.user.user_id)
+					triggerServerEvent("getCharacters",localPlayer,responseData.user.user_id)
+					activewindow = "selectcharacters"
+					destroyElement(logEdit)
+					destroyElement(passEdit)
+					destroyElement(emailEdit)
+					destroyElement(logBtn)
+					destroyElement(regBtn)
+				end
 			end
 		end
 	end)

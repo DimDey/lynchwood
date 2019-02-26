@@ -177,36 +177,45 @@ function dxDrawIncidente()
     local duration = endTime - incidentetime
     local progress = elapsedTime / duration
     local timeToEnd = endTime - now
-    local width, x = interpolateBetween ( screenH * 0.27, screenW * 0.36, 0, 0, (screenW * 0.46)+197.5, 0, progress, "Linear")
-    if incidenteFont == nil then
-        incidenteFont = getFont("Fonts/Montserrat-Medium.ttf",50)
-        incidenteWidth = dxGetTextWidth("БЕЗ СОЗНАНИЯ",1,incidenteFont) / 10
+    local width, x = interpolateBetween ( 395, screenW * 0.345, 0, 0, (screenW * 0.345)+395/2, 0, progress, "Linear")
+    if incidenteTitleFont == nil then
+        incidenteTitleFont = getFont("Fonts/Montserrat-Bold.ttf",50,true)
+        incidenteWidth = dxGetTextWidth("БЕЗ СОЗНАНИЯ",1,incidenteTitleFont) / 10
     end
-    dxDrawText("БЕЗ СОЗНАНИЯ", screenW * 0.46+incidenteWidth, screenH * 0.23, nil,nil, white, 1, incidenteFont, "center", "center")
+    if incidenteTimeFont == nil then
+        incidenteTimeFont = getFont("Fonts/Montserrat-Bold.ttf",20,true)
+    end
+    dxDrawText("БЕЗ СОЗНАНИЯ", screenW * 0.46+incidenteWidth, screenH * 0.23, nil,nil, white, 1, incidenteTitleFont, "center", "center")
     dxDrawImage(screenW * 0.477, screenH * 0.27, 56, 56, "Images/icon-sleep.png")
-    dxDrawRectangle(x, screenH * 0.1833, width, 2, Colors["general"])
-    dxDrawRectangle(screenW * 0.3868, screenH * 0.4, 395, 2, tocolor(21,185,25,100))
-    dxDrawText(math.round((timeToEnd/1000),1), screenW * 0.4931, screenH * 0.1978, screenW * 0.5653, screenH * 0.2311, white, 1.00, font_montmediumXX, "center", "top", false, false, false, false, false)
+    dxDrawRectangle(x, screenH * 0.37, width, 2, Colors["general"])
+    dxDrawRectangle(screenW * 0.345, screenH * 0.37, 395, 2, tocolor(21,185,25,100))
+    dxDrawText(math.round((timeToEnd/1000),1), screenW * 0.5, screenH * 0.38, screenW * 0.5, screenH * 0.38, Colors["general"], 1.00, incidenteTimeFont, "center", "top", false, false, false, false, false)
 end
 
 function drawNeedle()
     if not isPedInVehicle(localPlayer) then
         hideSpeedometer()
     end
+    local veh = getPedOccupiedVehicle(localPlayer)
     local vehSpeed = getVehicleSpeed()
-    local vehHealth = getElementHealth(getPedOccupiedVehicle(localPlayer))
-    local odometer = getElementData(getPedOccupiedVehicle(localPlayer),"odometer")
-
-    dxDrawImage(screenW * 0.7986, screenH * 0.6800, 256, 256, "Images/disc.png" )
-    dxDrawText(math.floor(vehSpeed), screenW * 0.8764, screenH * 0.8522, screenW * 0.9028, screenH * 0.8833, white, 1, font_montmediumB, "center", "center")
-    dxDrawImage(screenW * 0.7986, screenH * 0.6800, 256, 256, "Images/needle.png", vehSpeed-5, 0, 0, white, true)
+    local vehHealth = getElementHealth(veh)
+    local odometer = getElementData(veh,"odometer")
+    if speedometerFont == nil then
+        speedometerFont = getFont("Fonts/Montserrat-Bold.ttf",30,true)
+    end
+    if odometerFont == nil then
+        odometerFont = getFont("Fonts/Montserrat-Light.ttf",16,true)
+    end 
+    dxDrawImage((screenW * 0.95)-256, (screenH * 0.98)-256, 256, 256, "Images/disc.png" )
+    dxDrawText(math.floor(vehSpeed), screenW * 0.855, screenH * 0.86, screenW * 0.855, screenH * 0.86, white, 1, speedometerFont, "center", "center")
+    dxDrawImage((screenW * 0.95)-256, (screenH * 0.98)-256, 256, 256, "Images/needle.png", vehSpeed-5, 0, 0, white, true)
     local zeros = ""
     local odometerfl = math.floor(odometer)
     if 7-string.len(odometerfl) > 0 then
         zeros = string.rep("0",7-string.len(odometerfl))
     end
     
-    dxDrawText(zeros..math.floor(odometerfl), screenW * 0.8576, screenH * 0.9100, screenW * 0.9111, screenH * 0.9311, white, 1, font_montmediumL, "right", "center")
+    dxDrawText(zeros..math.floor(odometerfl), screenW * 0.88, screenH * 0.93, nil, nil, white, 1, odometerFont, "right", "center")
 end
 
 function showSpeedometer()
