@@ -5,30 +5,22 @@
 	<script src="Shared/global_functions.lua" type="shared" />
 
 	<file src="Images/player.png" type="client" />
-	<file src="Images/mask.png" type="client" />
-	<file src="Images/auth-logo.png" type="client" />
 	<file src="Images/avatar-mask.png" type="client" />
-	<file src="Images/btn-inactive.png" type="client" />
-	<file src="Images/btn-active.png" type="client" />
-	<file src="Images/checkbox-inactive.png" type="client" />
-	<file src="Images/checkbox-active.png" type="client" />
 	<file src="Images/davatar.jpg" type="client" />
 	<file src="Images/mask-error.png" type="client" />
 	<file src="Images/mask-success.png" type="client" />
 	<file src="Images/mask-add.png" type="client" />
 	<file src="Images/radar_map.jpg" type="client" />
 	<file src="Images/wallet.png" type="client" />
-	<file src="Images/wallet-mask.png" type="client" />
 	<file src="Images/icons.png" type="client" />
-	<file src="Images/shaderpallete.png" type="client" />
 	<file src="Images/tablist/tabmask.png" type="client" />
-	<file src="Images/mask-btnshadow.png" type="client" />
+	<file src="Images/mm-arrow.png" type="client" />
 	<file src="Images/disc.png" type="client" />
 	<file src="Images/needle.png" type="client" />
 	<file src="Images/biglogo.png" type="client" />
 	<file src="Images/icon-sleep.png" type="client" />
-
-
+	<file src="Images/menu-mask.png" type="client" />
+	
 	<file src="Fonts/Montserrat-Light.ttf" />
 	<file src="Fonts/Montserrat-ExtraLight.ttf" />
 	<file src="Fonts/Montserrat-Bold.ttf" />
@@ -53,6 +45,7 @@
 	<script src="Client/tab_list.lua" type="client" />
 	<script src="Client/audio_sys.lua" type="client" />
 	<script src="Client/house_building.lua" type="client" />
+	<script src="Client/menu-sys.lua" type="client" />
 
 	<script src="Shared/fractions.lua" type="shared" />
 

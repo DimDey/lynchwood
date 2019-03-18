@@ -7,7 +7,6 @@ sX,sY = screenW, screenH
 global_rendertarget = dxCreateRenderTarget( screenW, screenH, true )
 api_key = "uRDWClUg73pUDRyrAqtS_5WYczuS7lDF"
 resetAmbientSounds()
-DGS = exports.dgs -- exports from dgs
 lp = getLocalPlayer() -- локальный игрок
 clp = getCamera()
 chat_messages = {} -- сообщения чата
@@ -38,7 +37,7 @@ female_register_skins = {
 
 function getFont(path,size,bold)
 	bold = bold or false
-	local fontSize = math.ceil((size * screenH) / (1 * 1080)) 
+	local fontSize = math.ceil((size * screenH) / 1080) 
 	font = dxCreateFont(path, fontSize,bold)
 	return font
 end
@@ -49,7 +48,6 @@ end
 
 
 font_montmediumL = getFont("Fonts/Montserrat-Medium.ttf",9)
-font_montmediumB = getFont("Fonts/Montserrat-Medium.ttf",13,true)
 font_montmediumXX = getFont("Fonts/Montserrat-Medium.ttf",11,true)
 font_montregularB = getFont("Fonts/Montserrat-Regular.ttf",10,false)
 font_montregular = getFont("Fonts/Montserrat-Regular.ttf",8)

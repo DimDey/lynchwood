@@ -1,4 +1,5 @@
 Blur = {}
+Blurs = {}
 
 local shader = false
 local renderTarget = false
@@ -39,7 +40,7 @@ end
 addEventHandler( "onClientResourceStart", getRootElement(), Blur.createShader )
 
 function Blur.render()
-	strength = 0.3
+	strength = 9
 	-- Update screen source
 	dxUpdateScreenSource(screenSource, true)
 	
@@ -49,14 +50,13 @@ function Blur.render()
 	dxDrawImage(0, 0, blurW, blurH, screenSource)
 	
 	-- Repeat shader align on the image inside the render target
-	for i = 0, 8 do
-		dxSetShaderValue(shader, 'factor', 0.0020 * strength + (i / 8 * 0.001 * strength))
+	for i = 0, 6 do
+		dxSetShaderValue(shader, 'factor', 0.00005 * strength + (i / 0.15 * 0.00001 * strength))
 		dxDrawImage(0, 0, blurW, blurH, shader)
 	end
 		
 	-- Restore the default render target
 	dxSetRenderTarget()
-	dxDrawImage(0, 0, blurW, blurH, renderTarget, 0, 0, 0, tocolor(255, 255, 255, 255))
 end
 
 function Blur:getScreenTexture()

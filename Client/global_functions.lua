@@ -33,25 +33,6 @@ function _getZoneName( x, y, z )
 	end
 end
 
-function isCursorOnElement( posX, posY, width, height )
-	if isCursorShowing( ) then
-		local mouseX, mouseY = getCursorPosition( )
-		local mouseX, mouseY = mouseX * screenW, mouseY * screenH
-		if ( mouseX > posX and mouseX < ( posX + width ) and mouseY > posY and mouseY < ( posY + height ) ) then
-			return true
-		end
-	end
-	return false
-end
-
-function cursorY( )
-	if isCursorShowing( ) then
-		local _, mouseY = getCursorPosition( )
-		return mouseY * screenH
-	end
-	return 0
-end
-
 function convertNumber( number )  
 	local formatted = number  
 	while true do      
@@ -67,33 +48,6 @@ function round(num)
     if ( num >= 0 ) then return math.floor( num + .5 ) 
     else return math.ceil( num - .5 ) end
 end
-
-function dxDrawCorner( x, y, r, color, corner, postGUI )
-	local corner = corner or 1
-	local start = corner % 2 == 0 and 0 or -r
-	local stop = corner % 2 == 0 and r or 0
-	local m = corner > 2 and -1 or 1
-	local h = ( corner == 1 or corner == 3 ) and -1 or 1
- 	for yoff = start, stop do
- 		local xoff = math.sqrt( r * r - yoff * yoff ) * m
- 		dxDrawRectangle( x - xoff, y + yoff, xoff, h, color, postGUI )
-	end 
-end
-
-function _dxDrawRectangle( posX, posY, width, height, radius, color, postGUI )	
-	local posX, posY, width, height = round( posX ), round( posY ), round( width ), round( height )
-	local radius = radius and math.min( radius, math.min( width, height ) / 2 )  or 12
-	
-	dxDrawRectangle( posX, posY + radius, width, height - radius * 2, color, postGUI )
-	dxDrawRectangle( posX + radius, posY, width - 2 * radius, radius, color, postGUI )
-	dxDrawRectangle( posX + radius, posY + height - radius, width - 2 * radius, radius, color, postGUI )
-	
-	dxDrawCorner( posX + radius, posY + radius, radius, color, 1, postGUI )
-	dxDrawCorner( posX + radius, posY + height - radius, radius, color, 2, postGUI )
-	dxDrawCorner( posX + width - radius, posY + radius, radius, color, 3, postGUI )
-	dxDrawCorner( posX + width - radius, posY + height - radius, radius, color, 4, postGUI )
-end
-
 
 colshape = {}
 markers = {}
@@ -137,19 +91,13 @@ end
 function setPlayerComponentVisible(comp,visible)
 	PlayerComps[comp] = visible
 end
-local sx,sy = guiGetScreenSize()
-local sw,sh = 1440,900
 
-function relative(x,y,w,h)
-    local x,y,w,h = x/sx*sw,y/sy*sh,w/sx*sw,h/sy*sh
-    return x,y,w,h
-end
 
 function showGrid()
 	if isEventHandlerAdded("onClientRender",root,dxDrawGrid) then
 		removeEventHandler("onClientRender",root,dxDrawGrid)
 	else
-		
+		addEventHandler("onClientRender",root,dxDrawGrid)
 	end
 end
 addEvent("showGrid",true)
@@ -178,4 +126,64 @@ function dxDrawGrid()
 	dxDrawLine(0, screenH * 0.9, screenW, screenH * 0.9, tocolor(71,241,241))
 	dxDrawLine(0, screenH * 001, screenW, screenH * 001, tocolor(71,241,241))
 end
-addEventHandler("onClientRender",root,dxDrawGrid)
+
+function isMouseInPosition ( x, y, width, height )
+	if ( not isCursorShowing( ) ) then
+		return false
+	end
+    local sx, sy = guiGetScreenSize ( )
+    local cx, cy = getCursorPosition ( )
+    local cx, cy = ( cx * sx ), ( cy * sy )
+    if ( cx >= x and cx <= x + width ) and ( cy >= y and cy <= y + height ) then
+        return true
+    else
+        return false
+    end
+end
+
+function isCursorOverText(posX, posY, sizeX, sizeY)
+    if(isCursorShowing()) then
+        local cX, cY = getCursorPosition()
+        local screenWidth, screenHeight = guiGetScreenSize()
+        local cX, cY = (cX*screenWidth), (cY*screenHeight)
+        if(cX >= posX and cX <= posX+(sizeX - posX)) and (cY >= posY and cY <= posY+(sizeY - posY)) then
+            return true
+        else
+            return false
+        end
+    else
+        return false	
+    end
+end
+
+function lerp(a,b,t)
+    return ((1-t)*a) + (t*b)
+end
+
+local fps = false
+function getCurrentFPS()
+    return fps
+end
+
+local function updateFPS(msSinceLastFrame)
+    fps = (1 / msSinceLastFrame) * 1000
+end
+addEventHandler("onClientPreRender", root, updateFPS)
+
+loadstring(exports.dgs:dgsImportFunction())()
+
+function RGBToHex(red, green, blue, alpha)
+	
+	-- Make sure RGB values passed to this function are correct
+	if( ( red < 0 or red > 255 or green < 0 or green > 255 or blue < 0 or blue > 255 ) or ( alpha and ( alpha < 0 or alpha > 255 ) ) ) then
+		return nil
+	end
+
+	-- Alpha check
+	if alpha then
+		return string.format("0x%.2X%.2X%.2X%.2X",alpha, red, green, blue)
+	else
+		return string.format("0x%.2X%.2X%.2X", red, green, blue)
+	end
+
+end

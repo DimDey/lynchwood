@@ -1,6 +1,6 @@
-local chatBox = DGS:dgsCreateEdit(14,269,471,26,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0, 0, 0, 255))
-DGS:dgsSetVisible(chatBox,false)
-DGS:dgsEditSetMaxLength ( chatBox, 62 )
+local chatBox = dgsCreateEdit(14,269,471,26,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0, 0, 0, 255))
+dgsSetVisible(chatBox,false)
+dgsEditSetMaxLength ( chatBox, 62 )
 chat_opened = 0
 chat_focus = 0
 chat_mouse = 0
@@ -13,16 +13,16 @@ function chatCheck( )
 		if chat_opened == 0 then -- если чат не открыт
 			addEventHandler("onClientRender",root,openChat) -- отрисовка обводки
 			chat_opened = 1 
-			DGS:dgsSetVisible(chatBox,true) -- показываем чатбокс
-			DGS:dgsBringToFront( chatBox ) -- переместить на передний фон
-			DGS:dgsEditSetCaretPosition( chatBox, 1 ) -- установить курсор на 1 символ
+			dgsSetVisible(chatBox,true) -- показываем чатбокс
+			dgsBringToFront( chatBox ) -- переместить на передний фон
+			dgsEditSetCaretPosition( chatBox, 1 ) -- установить курсор на 1 символ
 			chat_focus = 1
 			showCursor(true)
 		elseif chat_opened == 1 then -- если чат открыт
 			removeEventHandler("onClientRender",root,openChat) -- убираем отрисовку обводки
 			chat_opened = 0
 			chat_focus = 0
-			DGS:dgsSetVisible(chatBox,false) -- убираем чатбокс
+			dgsSetVisible(chatBox,false) -- убираем чатбокс
 			showCursor(false)
 		end
 	end
@@ -33,9 +33,9 @@ function ChatYcheck()
 		if chat_opened == 0 then
 			addEventHandler("onClientRender",root,openChat) -- отрисовка обводки
 			chat_opened = 1 
-			DGS:dgsSetVisible(chatBox,true) -- показываем чатбокс
-			DGS:dgsBringToFront( chatBox ) -- переместить на передний фон
-			DGS:dgsEditSetCaretPosition( chatBox, 1 ) -- установить курсор на 1 символ
+			dgsSetVisible(chatBox,true) -- показываем чатбокс
+			dgsBringToFront( chatBox ) -- переместить на передний фон
+			dgsEditSetCaretPosition( chatBox, 1 ) -- установить курсор на 1 символ
 			chat_focus = 1
 			showCursor(true)
 		end
@@ -48,21 +48,21 @@ bindKey("y","up",ChatYcheck)
 function selectMessage(btn,press)
 	if press and chat_opened then
 		if btn == "arrow_u" then
-			local text = DGS:dgsGetText( chatBox ) -- текст из эдитбокса
+			local text = dgsGetText( chatBox ) -- текст из эдитбокса
 			if chat_entries_index > 1 then
 				if string.len(text) > 0 then
 					chat_entries[chat_entries_index+1] = text
 				end
 				chat_entries_index = chat_entries_index-1
-				DGS:dgsSetText(chatBox, chat_entries[chat_entries_index])
+				dgsSetText(chatBox, chat_entries[chat_entries_index])
 			end
 		elseif btn == "arrow_d" then
 			if chat_entries_index+1 ~= #chat_entries+2 then
 				chat_entries_index = chat_entries_index+1
 				if chat_entries[chat_entries_index] == nil then
-					DGS:dgsSetText(chatBox, "")
+					dgsSetText(chatBox, "")
 				else
-					DGS:dgsSetText(chatBox, chat_entries[chat_entries_index])
+					dgsSetText(chatBox, chat_entries[chat_entries_index])
 				end
 			end
 		end
@@ -76,7 +76,7 @@ function openChat( )
 end
 
 function onPlayerEnterMessage( )
-	local text = removeHex(DGS:dgsGetText( chatBox )) -- текст из эдитбокса
+	local text = removeHex(dgsGetText( chatBox )) -- текст из эдитбокса
 	local iftext = string.gsub(text,"%s+", "") -- проверка не пустой ли текст без пробелов
 	if string.len(iftext) > 0 then
 		chat_entries[#chat_entries+1] = text
@@ -92,7 +92,7 @@ function onPlayerEnterMessage( )
 	else
 		removeEventHandler("onClientRender",root,openChat) -- убираем отрисовку обводки
 		chat_opened = 0
-		DGS:dgsSetVisible(chatBox,false) -- убираем чатбокс
+		dgsSetVisible(chatBox,false) -- убираем чатбокс
 		showCursor(false)
 	end
 end
@@ -128,8 +128,8 @@ addEventHandler( "outputAdminChatMessage", root, outputAdminChatMessage)
 
 
 function clearChatBox( )
-	DGS:dgsSetText ( chatBox, "" ) -- обнуление текста
-	DGS:dgsSetVisible(chatBox, false ) -- скрытие эдитбокса
+	dgsSetText ( chatBox, "" ) -- обнуление текста
+	dgsSetVisible(chatBox, false ) -- скрытие эдитбокса
 	showCursor (false) -- скрытие курсора
 	chat_visible = false -- переменная чата
 	removeEventHandler("onClientRender",root,openChat) -- убираем отрисовку обводки

@@ -1,6 +1,5 @@
 local MaxFuel = 100
 local decreasing = 0.000005
-local speedometerTexture = dxCreateRoundedTexture(screenW * 0.8194, screenH * 0.7100, screenW * 0.1590, screenH * 0.2467, 10, "Images/speedbg.png")
 
 local gasStationsCords = {
     {0,0,12.5,100}
@@ -201,13 +200,13 @@ function drawNeedle()
     local vehHealth = getElementHealth(veh)
     local odometer = getElementData(veh,"odometer")
     if speedometerFont == nil then
-        speedometerFont = getFont("Fonts/Montserrat-Bold.ttf",30,true)
+        speedometerFont = getFont("Fonts/Montserrat-Bold.ttf",26,true)
     end
     if odometerFont == nil then
         odometerFont = getFont("Fonts/Montserrat-Light.ttf",16,true)
     end 
     dxDrawImage((screenW * 0.95)-256, (screenH * 0.98)-256, 256, 256, "Images/disc.png" )
-    dxDrawText(math.floor(vehSpeed), screenW * 0.855, screenH * 0.86, screenW * 0.855, screenH * 0.86, white, 1, speedometerFont, "center", "center")
+    dxDrawText(math.floor(vehSpeed), screenW * 0.86, screenH * 0.87, screenW * 0.86, screenH * 0.87, white, 1, speedometerFont, "center", "center")
     dxDrawImage((screenW * 0.95)-256, (screenH * 0.98)-256, 256, 256, "Images/needle.png", vehSpeed-5, 0, 0, white, true)
     local zeros = ""
     local odometerfl = math.floor(odometer)
@@ -215,7 +214,7 @@ function drawNeedle()
         zeros = string.rep("0",7-string.len(odometerfl))
     end
     
-    dxDrawText(zeros..math.floor(odometerfl), screenW * 0.88, screenH * 0.93, nil, nil, white, 1, odometerFont, "right", "center")
+    dxDrawText(zeros..math.floor(odometerfl), screenW * 0.89, screenH * 0.94, nil, nil, white, 1, odometerFont, "right", "center")
 end
 
 function showSpeedometer()
