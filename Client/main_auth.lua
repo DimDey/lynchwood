@@ -1,5 +1,6 @@
 leftBtn = dxCreateButton(screenW * 0.36,screenH * 0.84,screenW * 0.13,screenH * 0.07,"",tocolor(0,0,0,50),nil,nil,2.5,true) -- создание кнопки
 rightBtn = dxCreateButton(screenW * 0.53,screenH * 0.84,screenW * 0.13,screenH * 0.07,"",tocolor(0,0,0,50),nil,nil,2.5,true) -- создание кнопки
+editBox = dxCreateEdit(0,0,255,55,"Title","",tocolor(0,0,0,0),nil,nil,2.5,true) -- создание кнопки
 
 
 font = getFont("Fonts/Montserrat-Medium.ttf",15,true)
