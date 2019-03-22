@@ -3,8 +3,10 @@ sysSettings = {
     defaultColor = white,
     font = "default"
 }
-animList = {}
-easingTypes = { "Linear", "InQuad", "OutQuad", "InOutQuad", "OutInQuad", "InElastic", "OutElastic", "InOutElastic", "OutInElastic", "InBack", "OutBack", "InOutBack", "OutInBack", "InBounce", "OutBounce", "InOutBounce", "OutInBounce", "SineCurve", "CosineCurve" }
+
+local easingTypes = { "Linear", "InQuad", "OutQuad", "InOutQuad", "OutInQuad", "InElastic", "OutElastic", "InOutElastic", "OutInElastic", "InBack", "OutBack", "InOutBack", "OutInBack", "InBounce", "OutBounce", "InOutBounce", "OutInBounce", "SineCurve", "CosineCurve" }
+
+
 
 function dxDrawRoundedRectangle(x, y, rx, ry, text, textFont, color, radius, blur)
     blur = blur or false
@@ -133,7 +135,7 @@ function dxCreateEdit(aX,aY,w,h,titleText,text,norcolor,hovcolor,clicolor)
             success = tocolor(255,0,0,255)
         },
         text = text,
-        index = string.len(text),
+        index = utf8.len(text) or 1,
         font = textFont or sysSettings.font,
         titleText = titleText,
         maxLength = 120,
@@ -199,13 +201,17 @@ function dxDrawRect(elementTable)
 end
 
 function dxDrawEdit(elementTable)
+    local caretX = dxGetTextWidth(utf8.sub(elementTable.text,0,elementTable.index),1,elementTable.font)+elementTable.offset.x
     local x,y,w,h = elementTable.pos.x,elementTable.pos.y,elementTable.pos.x+elementTable.size.width,elementTable.pos.y+elementTable.size.height
     local textFont = elementTable.font or sysSettings.font
     dxSetRenderTarget(elementTable.rt,true)
     dxDrawRectangle(x,y,w,h,elementTable.activecolor)
     dxDrawRectangle(x,y+h-5,w,5)
-    dxDrawText(elementTable.text,x-elementTable.offset.x,y-elementTable.offset.y,w,h,tocolor(255,255,255),1,textFont,"left","center")
+    dxDrawText(elementTable.text,x+elementTable.offset.x,y-elementTable.offset.y,w,h,tocolor(255,255,255),1,textFont,"left","center")
+    
+    dxDrawRectangle(caretX-0.5,elementTable.pos.y+20,2,15,tocolor(0,0,0))
     dxSetRenderTarget()
+    dxDrawText(elementTable.titleText,elementTable.pos.x,elementTable.pos.y,elementTable.size.width,elementTable.size.height)
     dxDrawImage(x,y,w,h,elementTable.rt)
 end
 
@@ -251,15 +257,20 @@ function dxCreateChild(parent,child,elementTable)
     dxElements[parent].childs[child] = elementTable
     dxElements[parent].childs[child].parent = parent
     if dxElements[child] then
-        return true
+        return child
     end
 end
 
-function dxSetEditText(elementTable,text)
+function dxSetEditText(elementTable)
     elementTable.text = utf8.sub(elementTable.text,1,elementTable.index)..text..utf8.sub(elementTable.text,elementTable.index+1)
     elementTable.index = elementTable.index+1
-    if dxGetTextWidth(elementTable.text,1,elementTable.font) > elementTable.size.width then
-        elementTable.offset.x = elementTable.offset.x + dxGetTextWidth(utf8.sub(elementTable.text,elementTable.index),1,elementTable.font)
+    if dxGetTextWidth(utf8.sub(elementTable.text,0,elementTable.index),1,elementTable.font)+elementTable.offset.x > elementTable.size.width then
+        elementTable.offset.x = -(elementTable.offset.x + dxGetTextWidth(elementTable.text,1,elementTable.font))
+    else
+        elementTable.offset.x =  elementTable.offset.x - dxGetTextWidth(utf8.sub(elementTable.text,0,elementTable.index),1,elementTable.font)
+        if elementTable.offset.x < 0 then
+            elementTable.offset.x = 0
+        end
     end
 end
 
@@ -267,15 +278,75 @@ function dxSetEditCaret(elementTable)
     
 end
 
-function dxFindCaret(elementTable,x,y)
+function dxEditUpdateText(elementTable)
+    local index = elementTable.index
     local text = elementTable.text
-    local sfrom,sto = 0,utf8.len(elementTable.text)
-    local font = elementTable.font
-    if elementTable.masked then
+    elementTable.text = utf8.sub(textData,1,index)..text..utf8.sub(textData,index+1)
+end
 
+function dxGetCaretPosition(element)
+    if type(element) == "table" then
+        elementTable = element
+    else
+        elementTable = dxGetElementTable(element)
     end
-    local textWidth = dxGetTextWidth(elementTable.text,1,elementTable.font)
+    return elementTable.index
+end
 
+function dxFindCaret(elementTable,posx,posy)
+    local text = elementTable.text
+	local sfrom,sto = 0,utf8.len(text)
+	if elementTable.masked then
+		text = utf8.rep("*",sto)
+	end
+	local font = elementTable.font or systemFont
+	local txtSizX = 1
+	local size = 1
+	local offset = elementTable.offset.x
+	local x = elementTable.pos.x
+	local padding = 0
+	local pos
+	local alllen = dxGetTextWidth(elementTable.text,1,elementTable.font)
+	local sx,sy = elementTable.pos.x,elementTable.pos.y
+	pos = (alllen-1+offset)*0.5-x+posx
+	local templen = 0
+	for i=1,sto do
+		local stoSfrom_Half = (sto+sfrom)*0.5
+		local strlen = dxGetTextWidth(utf8.sub(text,sfrom+1,stoSfrom_Half),txtSizX)
+		local len1 = strlen+templen
+		if pos < len1 then
+			sto = math.floor(stoSfrom_Half)
+		elseif pos > len1 then
+			sfrom = math.floor(stoSfrom_Half)
+			templen = dxGetTextWidth(utf8.sub(text,0,sfrom),txtSizX)
+			start = len1
+		elseif pos == len1 then
+			start = len1
+			sto = sfrom
+			templen = dxGetTextWidth(utf8.sub(text,0,sfrom),txtSizX)
+		end
+		if sto-sfrom <= 10 then
+			break
+		end
+	end
+	local start = dxGetTextWidth(utf8.sub(text,0,sfrom),txtSizX)
+	local lastWidth
+	for i=start,sto do
+		local poslen1 = dxGetTextWidth(utf8.sub(text,sfrom+1,i),txtSizX,font)+start
+		local Next = dxGetTextWidth(utf8.sub(text,i+1,i+1),txtSizX,font)*0.5
+		local offsetR = Next+poslen1
+		local Last = lastWidth or dxGetTextWidth(utf8.sub(text,i,i),txtSizX,font)*0.5
+		lastWidth = Next
+		local offsetL = poslen1-Last
+		if i <= sfrom and pos <= offsetL then
+			return sfrom
+		elseif i >= sto and pos >= offsetR then
+			return sto
+		elseif pos >= offsetL and pos <= offsetR then
+			return i
+		end
+	end
+	return -1
 end
 
 --EVENTS
@@ -288,23 +359,16 @@ function onClickOnElement(button,state)
             elementTable.activecolor = elementTable.colors.click
             if elementTable.type == "edit" then
                 local x,y = getCursorPosition()
-                dxFindCaret(elementTable,x,y)
+                elementTable.index = dxFindCaret(elementTable,x,y)
+            end
+        else
+            if elementTable.states.clicked then
+                elementTable.states.clicked = false
             end
         end
     end
 end
 bindKey("mouse1","down",onClickOnElement)
-
-function getCharacters(button)
-    for i,elementTable in pairs(dxElements) do
-        if elementTable.type == "edit" then
-            if elementTable.states.clicked then
-                dxSetEditText(elementTable,button)
-            end
-        end
-    end
-end
-addEventHandler("onClientCharacter",root,getCharacters)
 
 function onHoverOnElement()
     for i,elementTable in pairs(dxElements) do
@@ -324,6 +388,31 @@ function onHoverOnElement()
     end
 end
 addEventHandler("onClientRender",root,onHoverOnElement)
+
+
+function onClientPressCharacter(button)
+    for i,elementTable in pairs(dxElements) do
+        if elementTable.type == "edit" then
+            if elementTable.states.clicked then
+                dxSetEditText(elementTable,button)
+            end
+        end
+    end
+end
+addEventHandler("onClientCharacter",root,onClientPressCharacter)
+
+function onClientPressKey(button,press)
+    if press then
+        for i,elementTable in pairs(dxElements) do
+            if elementTable.type == "edit" then
+                if button == "backspace" then
+                    dxEditUpdateText(elementTable)
+                end
+            end
+        end
+    end
+end
+addEventHandler("onClientKey",root,onClientPressKey)
 
 --ANIMS
 
