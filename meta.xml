@@ -27,25 +27,26 @@
 	<file src="Fonts/Montserrat-Medium.ttf" />
 	<file src="Fonts/Montserrat-Regular.ttf" />
 	
-	<script src="Client/global_variables.lua" type="client" />
-	<script src="Client/global_functions.lua" type="client" />
-	<script src="Client/pop-ups.lua" type="client" />
-	<script src="Client/dx-system.lua" type="client" />
-	<script src="Client/chat_general.lua" type="client" />
-	<script src="Client/chat_scroll.lua" type="client" />
-	<script src="Client/chat_rendertarget.lua" type="client" />
-	<script src="Client/map.lua" type="client" />
-	<script src="Client/player_tag.lua" type="client" />
-	<script src="Client/afk_system.lua" type="client" />
-	<script src="Client/main_auth.lua" type="client" />
-	<script src="Client/login_blur.lua" type="client" />
-	<script src="Client/colorcorrection.lua" type="client" />
-	<script src="Client/hud.lua" type="client" />
-	<script src="Client/autosys.lua" type="client" />
-	<script src="Client/tab_list.lua" type="client" />
-	<script src="Client/audio_sys.lua" type="client" />
-	<script src="Client/house_building.lua" type="client" />
-	<script src="Client/menu-sys.lua" type="client" />
+	<script src="Client/global_variables.lua" type="client" cache="false" />
+	<script src="Client/global_functions.lua" type="client" cache="false" />
+	<script src="Client/pop-ups.lua" type="client" cache="false" />
+	<script src="Client/dx-system.lua" type="client" cache="false" />
+	<script src="Client/chat_general.lua" type="client" cache="false" />
+	<script src="Client/chat_scroll.lua" type="client" cache="false" />
+	<script src="Client/chat_rendertarget.lua" type="client" cache="false" />
+	<script src="Client/map.lua" type="client" cache="false" />
+	<script src="Client/player_tag.lua" type="client" cache="false"/>
+	<script src="Client/afk_system.lua" type="client" cache="false" />
+	<script src="Client/main_auth.lua" type="client" cache="false" />
+	<script src="Client/login_blur.lua" type="client" cache="false" />
+	<script src="Client/colorcorrection.lua" type="client" cache="false" />
+	<script src="Client/hud.lua" type="client" cache="false" />
+	<script src="Client/autosys.lua" type="client" cache="false" />
+	<script src="Client/tab_list.lua" type="client" cache="false" />
+	<script src="Client/audio_sys.lua" type="client" cache="false" />
+	<script src="Client/house_building.lua" type="client" cache="false" />
+	<script src="Client/menu-sys.lua" type="client" cache="false" />
+	<script src="Client/vignette.lua" type="client" cache="false" />
 
 	<script src="Shared/fractions.lua" type="shared" />
 
@@ -64,14 +65,20 @@
 	<map src="Maps/derevyshka.map" dimension="0"></map>
 
 	<file src="Shaders/mta-helper.fx" type="client" />
+
 	<file src="Shaders/dBlurH.fx" type="client" />
 	<file src="Shaders/dBlurV.fx" type="client" />
+
 	<file src="Shaders/car_refgene.fx" type="client" />
 	<file src="Shaders/car_refgrun.fx" type="client" />
 	<file src="Shaders/car_refgrunL.fx" type="client" />
+
 	<file src="Shaders/addPalette.fx" type="client" />
+	
 	<file src="Shaders/mask.fx" type="client" />
 	<file src="Shaders/smooth.fx" type="client" />
+	<file src="Shaders/vignette.fx" type="client" />
+
 	<file src="Shaders/login_blur.c" type="client" />
 
 	<file src="Audio/lesden.mp3" type="server" />

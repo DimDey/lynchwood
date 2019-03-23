@@ -353,7 +353,7 @@ end
 
 function onClickOnElement(button,state)
     for i,elementTable in pairs(dxElements) do
-        if isMouseInPosition(elementTable.pos.x,elementTable.pos.y,elementTable.size.width,elementTable.size.height) then
+        if elementTable.states.focused then
             triggerEvent("onDxClick",elementTable.element)
             elementTable.states.clicked = true
             elementTable.activecolor = elementTable.colors.click

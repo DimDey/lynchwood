@@ -1,17 +1,4 @@
-function onLogIn(nick, pass)
-	nick = removeHex(nick)
-	isRegistered(nick, 
-		function(state)
-			if state then
-				triggerClientEvent(lp, "outputChatMessage", lp, "Аккаунт с таким никнеймом не найден, пожалуйста зарегистрируйтесь.", "#990000")
-			else
-				
-			end
-		end
-	)
-end
-
-function onSignIn(lp, nick, pass,email)
+function onSignIn(lp, nick, pass, email)
 	nick = removeHex(nick)
 	options = {
 		formFields = {
@@ -27,14 +14,13 @@ function regCallback(responseData,errno,lp,nick)
 	if type(errno) == "table" then
 		responseData = fromJSON(responseData)
 		if tonumber(responseData.code) == 1 then
-			iprint(getPlayerName(lp))
 			setElementData(lp, "logged", true)
 			triggerClientEvent(lp, "outputChatMessage", lp, "Внимание, "..nick.." вы зарегистрирвали свой аккаунт на форум(forum.lw-rp.tk)")
 			triggerClientEvent(lp, "outputChatMessage", lp, "Чтобы войти в следующий раз введите свой никнейм: "..nick..".")
 			fadeCamera(lp, true)
 			spawnPlayer(lp,0,0,0,0,162)
 			triggerClientEvent(lp, "endSignUp",lp)
-			setElementData(lp, "nick",  nick)
+			setElementData(lp, "nick", nick)
 			showCursor(lp,true)
 		elseif tonumber(responseData.code) == 2 then
 			triggerClientEvent(lp, "errorSignUp", lp)
@@ -113,18 +99,15 @@ function onEndCreateCharacter(nick,skin,spawn,gender)
 		end
 	end,{client,nick,skin,spawn,gender},dbHandle,"SELECT `nick` FROM `accounts` WHERE nick='"..nick.."'")
 end
-
-addEvent("onPlayerLogIn", true)
+addEvent("getCharacters", true)
 addEvent("onClientEndRegister", true)
 addEvent("onPlayerStartSignUp", true)
-addEvent("getCharacters", true)
 addEvent("onClientSelectCharacter", true)
 addEvent("onEndCreateCharacter", true)
 
-addEventHandler("onPlayerLogIn", getRootElement(), onLogIn)
+addEventHandler("onPlayerLogIn", getRootElement(), onAuth)
 addEventHandler("onPlayerStartSignUp", getRootElement(), onSignIn)
 addEventHandler("onClientEndRegister",root,onEndRegister)
 addEventHandler( "onPlayerQuit", getRootElement(), onPlayerOff )
 addEventHandler("onClientSelectCharacter",root,onSelectCharacter)
-addEventHandler("getCharacters",root,onAuth)
 addEventHandler("onEndCreateCharacter",root,onEndCreateCharacter)

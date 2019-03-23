@@ -166,9 +166,17 @@ function getCurrentFPS()
 end
 
 local function updateFPS(msSinceLastFrame)
-    fps = (1 / msSinceLastFrame) * 1000
+	fps = (1 / msSinceLastFrame) * 1000
+	
 end
 addEventHandler("onClientPreRender", root, updateFPS)
+
+function dxDrawFPS()
+	if fps then
+		dxDrawText(math.floor(fps),screenW-40,0,screenW-10,0,white,1.5,"antialiased")
+	end
+end
+addEventHandler("onClientRender", root, dxDrawFPS)
 
 loadstring(exports.dgs:dgsImportFunction())()
 
