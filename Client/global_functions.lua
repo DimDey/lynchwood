@@ -49,27 +49,6 @@ function round(num)
     else return math.ceil( num - .5 ) end
 end
 
-colshape = {}
-markers = {}
-
-function colshape:create(func,onEnter,onExit,...)
-	local col = func(...)
-	if onEnter and onExit then
-		addEventHandler("onClientColShapeHit",col,onEnter)
-		addEventHandler("onClientColShapeLeave",col,onExit)
-	end
-	return col
-end
-
-function markers:create(x,y,z,onEnter,onExit,...)
-	local marker = createMarker(x,y,z,...)
-	if onEnter and onExit then
-		addEventHandler("onClientMarkerHit",marker,onEnter)
-		addEventHandler("onClientMarkerLeave",marker,onExit)
-	end
-	return marker
-end
-
 function copyToClipboard()
 	local x,y,z = getElementPosition(lp)
 	setClipboard(x..", "..y..", "..z)
@@ -126,6 +105,7 @@ function dxDrawGrid()
 	dxDrawLine(0, screenH * 0.9, screenW, screenH * 0.9, tocolor(71,241,241))
 	dxDrawLine(0, screenH * 001, screenW, screenH * 001, tocolor(71,241,241))
 end
+addEventHandler("onClientRender",root,dxDrawGrid)
 
 function isMouseInPosition ( x, y, width, height )
 	if ( not isCursorShowing( ) ) then
@@ -176,7 +156,7 @@ function dxDrawFPS()
 		dxDrawText(math.floor(fps),screenW-40,0,screenW-10,0,white,1.5,"antialiased")
 	end
 end
-addEventHandler("onClientRender", root, dxDrawFPS)
+addEventHandler("onClientRender", root, dxDrawFPS,true,"low")
 
 loadstring(exports.dgs:dgsImportFunction())()
 

@@ -4,48 +4,53 @@
 
 	<script src="Shared/global_functions.lua" type="shared" />
 
-	<file src="Images/player.png" type="client" />
-	<file src="Images/avatar-mask.png" type="client" />
-	<file src="Images/davatar.jpg" type="client" />
-	<file src="Images/mask-error.png" type="client" />
-	<file src="Images/mask-success.png" type="client" />
-	<file src="Images/mask-add.png" type="client" />
+	<file src="Images/auth-btn.png" type="client" />
+	<file src="Images/reg-btn.png" type="client" />
+	<file src="Images/background-auth.png" type="client" />
+	<file src="Images/background-reg.png" type="client" />
+	<file src="Images/background-login.png" type="client" />
+
+	<file src="Fonts/fontawesome.ttf" type="client" />
+	<file src="Fonts/BebasNeue Bold.otf" type="client" />
+	<file src="Fonts/BebasNeue Book.otf" type="client" />
+	<file src="Fonts/BebasNeue Light.otf" type="client" />
+	<file src="Fonts/BebasNeue Regular.otf" type="client" />
+	<file src="Fonts/BebasNeue Thin.otf" type="client" />
+
+	<file src="Fonts/CeraPro-Regular.ttf" type="client" />
+
+
 	<file src="Images/radar_map.jpg" type="client" />
-	<file src="Images/wallet.png" type="client" />
-	<file src="Images/icons.png" type="client" />
-	<file src="Images/tablist/tabmask.png" type="client" />
-	<file src="Images/mm-arrow.png" type="client" />
-	<file src="Images/disc.png" type="client" />
-	<file src="Images/needle.png" type="client" />
-	<file src="Images/biglogo.png" type="client" />
-	<file src="Images/icon-sleep.png" type="client" />
-	<file src="Images/menu-mask.png" type="client" />
-	
-	<file src="Fonts/Montserrat-Light.ttf" />
-	<file src="Fonts/Montserrat-ExtraLight.ttf" />
-	<file src="Fonts/Montserrat-Bold.ttf" />
-	<file src="Fonts/Montserrat-Medium.ttf" />
-	<file src="Fonts/Montserrat-Regular.ttf" />
 	
 	<script src="Client/global_variables.lua" type="client" cache="false" />
 	<script src="Client/global_functions.lua" type="client" cache="false" />
+
 	<script src="Client/pop-ups.lua" type="client" cache="false" />
+
 	<script src="Client/dx-system.lua" type="client" cache="false" />
+
 	<script src="Client/chat_general.lua" type="client" cache="false" />
 	<script src="Client/chat_scroll.lua" type="client" cache="false" />
 	<script src="Client/chat_rendertarget.lua" type="client" cache="false" />
+
 	<script src="Client/map.lua" type="client" cache="false" />
 	<script src="Client/player_tag.lua" type="client" cache="false"/>
 	<script src="Client/afk_system.lua" type="client" cache="false" />
+
 	<script src="Client/main_auth.lua" type="client" cache="false" />
+	<script src="Client/auth_login.lua" type="client" cache="false" />
+	<script src="Client/auth_register.lua" type="client" cache="false" />
 	<script src="Client/login_blur.lua" type="client" cache="false" />
+
 	<script src="Client/colorcorrection.lua" type="client" cache="false" />
+
 	<script src="Client/hud.lua" type="client" cache="false" />
 	<script src="Client/autosys.lua" type="client" cache="false" />
 	<script src="Client/tab_list.lua" type="client" cache="false" />
+
 	<script src="Client/audio_sys.lua" type="client" cache="false" />
+
 	<script src="Client/house_building.lua" type="client" cache="false" />
-	<script src="Client/menu-sys.lua" type="client" cache="false" />
 	<script src="Client/vignette.lua" type="client" cache="false" />
 
 	<script src="Shared/fractions.lua" type="shared" />
@@ -62,21 +67,12 @@
 	<script src="Server/weather.lua" type="server" />
 	<script src="Server/autosys.lua" type="server" />
 
-	<map src="Maps/derevyshka.map" dimension="0"></map>
-
 	<file src="Shaders/mta-helper.fx" type="client" />
 
 	<file src="Shaders/dBlurH.fx" type="client" />
 	<file src="Shaders/dBlurV.fx" type="client" />
-
-	<file src="Shaders/car_refgene.fx" type="client" />
-	<file src="Shaders/car_refgrun.fx" type="client" />
-	<file src="Shaders/car_refgrunL.fx" type="client" />
-
-	<file src="Shaders/addPalette.fx" type="client" />
 	
 	<file src="Shaders/mask.fx" type="client" />
-	<file src="Shaders/smooth.fx" type="client" />
 	<file src="Shaders/vignette.fx" type="client" />
 
 	<file src="Shaders/login_blur.c" type="client" />

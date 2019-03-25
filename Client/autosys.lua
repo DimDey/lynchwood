@@ -7,14 +7,6 @@ local gasStationsCords = {
 
 local gasStations = {}
 
-function createGasStationCols()
-    for i, gasTable in ipairs(gasStationsCords) do
-        local col = colshape:create(createColSphere,nil,nil,gasTable[1], gasTable[2], gasTable[3],gasTable[4])
-        gasStations[i] = col
-    end
-end
-addEventHandler("onClientResourceStart",resourceRoot,createGasStationCols)
-
 function engineCheck(theVehicle)
     if itHaveVehicleKeys(theVehicle) then
         vehCheck(theVehicle)

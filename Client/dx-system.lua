@@ -6,6 +6,17 @@ sysSettings = {
 
 local easingTypes = { "Linear", "InQuad", "OutQuad", "InOutQuad", "OutInQuad", "InElastic", "OutElastic", "InOutElastic", "OutInElastic", "InBack", "OutBack", "InOutBack", "OutInBack", "InBounce", "OutBounce", "InOutBounce", "OutInBounce", "SineCurve", "CosineCurve" }
 
+function dxMaskTexture(mask,width,height)
+    local mask = dxCreateTexture( mask )
+    local texture = dxCreateTexture(width,height)
+    local shader = dxCreateShader("Shaders/mask.fx")
+    if shader and mask then
+        dxSetShaderValue( shader, "Texture0",mask) -- текстура
+        dxSetShaderValue( shader, "Texture1",mask) -- маска     
+
+        return shader
+    end
+end
 
 
 function dxDrawRoundedRectangle(x, y, rx, ry, text, textFont, color, radius, blur)
@@ -420,3 +431,9 @@ addEventHandler("onClientKey",root,onClientPressKey)
 addEvent("onDxClick")
 addEvent("onDxFocus")
 addEvent("onDxBlur")
+
+
+function useAdaptive()
+    
+end
+addEventHandler("onClientRender",root,useAdaptive)

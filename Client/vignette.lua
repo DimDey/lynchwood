@@ -1,7 +1,7 @@
 local screenWidth, screenHeight = guiGetScreenSize()
 local screenSource	= dxCreateScreenSource(screenWidth, screenHeight)
 local darkness		= 0.8
-local radius		= 1
+local radius		= 2
 
 function createVignette()
     vignetteShader = dxCreateShader("Shaders/vignette.fx")

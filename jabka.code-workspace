@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "E:\\MTA\\myservermta\\server\\mods\\deathmatch\\resources\\login"
+		},
+		{
+			"path": "E:\\MTA\\myservermta\\server\\mods\\deathmatch\\resources\\dxsys"
 		}
 	],
 	"settings": {}

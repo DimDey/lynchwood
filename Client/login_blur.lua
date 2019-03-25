@@ -57,7 +57,9 @@ function Blur.render()
 		
 	-- Restore the default render target
 	dxSetRenderTarget()
+	dxDrawImage(0,0,screenW,screenH,renderTarget)
 end
+
 
 function Blur:getScreenTexture()
 	return renderTarget
