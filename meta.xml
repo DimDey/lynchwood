@@ -6,6 +6,7 @@
 
 	<file src="Images/auth-btn.png" type="client" />
 	<file src="Images/reg-btn.png" type="client" />
+	<file src="Images/next-btn.png" type="client" />
 	<file src="Images/background-auth.png" type="client" />
 	<file src="Images/background-reg.png" type="client" />
 	<file src="Images/background-login.png" type="client" />
@@ -40,6 +41,7 @@
 	<script src="Client/main_auth.lua" type="client" cache="false" />
 	<script src="Client/auth_login.lua" type="client" cache="false" />
 	<script src="Client/auth_register.lua" type="client" cache="false" />
+	<script src="Client/auth_createperson.lua" type="client" cache="false" />
 	<script src="Client/login_blur.lua" type="client" cache="false" />
 
 	<script src="Client/colorcorrection.lua" type="client" cache="false" />

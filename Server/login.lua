@@ -1,32 +1,17 @@
-function onSignIn(lp, nick, pass, email)
-	nick = removeHex(nick)
-	options = {
-		formFields = {
-			username=nick,
-			email=email,
-			password=pass,
-		},
-	}
-	fetchRemote("https://forum.lw-rp.tk/reg.php", options, regCallback,{lp,nick})
+function onSignIn(nick, pass, email)
+	local qh = dbQuery(regCallback,{client,nick,pass,email},dbHandle, "SELECT * FROM `accounts` WHERE `nick`='"..nick.."' AND `email`='"..email.."'")
 end
 
-function regCallback(responseData,errno,lp,nick)
-	if type(errno) == "table" then
-		responseData = fromJSON(responseData)
-		if tonumber(responseData.code) == 1 then
-			setElementData(lp, "logged", true)
-			triggerClientEvent(lp, "outputChatMessage", lp, "Внимание, "..nick.." вы зарегистрирвали свой аккаунт на форум(forum.lw-rp.tk)")
-			triggerClientEvent(lp, "outputChatMessage", lp, "Чтобы войти в следующий раз введите свой никнейм: "..nick..".")
-			fadeCamera(lp, true)
-			spawnPlayer(lp,0,0,0,0,162)
-			triggerClientEvent(lp, "endSignUp",lp)
-			setElementData(lp, "nick", nick)
-			showCursor(lp,true)
-		elseif tonumber(responseData.code) == 2 then
-			triggerClientEvent(lp, "errorSignUp", lp)
+function regCallback(qh,client,nick,pass,email)
+	local result = dbPoll(qh,0)
+	if result then
+		if #result == 0 then
+			pass = base64Encode(pass)
+			dbExec(dbHandle,"INSERT INTO `accounts` (`id`, `nick`, `email`, `pass`, `faction`, `admin`) VALUES (NULL, '"..nick.."', '"..email.."', '"..pass.."', '0', '0');")
+			triggerClientEvent(client,"onSuccessEdits",client)
+		else
+			triggerClientEvent(client,"onErrorEdits",client)
 		end
-	else
-		
 	end
 end
 
@@ -40,74 +25,35 @@ function onPlayerOff( )
 	end
 end
 
-function onEndRegister( thePlayer, skin )
-	setElementData(thePlayer, "skin", skin)	
-	spawnPlayer(thePlayer, 0,0,0, 50,skin)
-	fadeCamera(thePlayer,true)
-	setCameraTarget(thePlayer,thePlayer)
-	setElementInterior(thePlayer,0)
+function onAuth(login,pass)
+	pass = base64Encode(pass)
+	local qh = dbQuery(authCallback,{client,pass}, dbHandle, "SELECT * FROM `accounts` WHERE `nick` ='"..login.."'")
 end
 
-function onAuth(userid)
-	local qh = dbQuery(authCallback,{client}, dbHandle, "SELECT * FROM `accounts` WHERE `forumid` ="..userid)
-end
-
-function authCallback(qh,client)
+function authCallback(qh,client,pass)
 	local result = dbPoll( qh, 0 )
 	if result then
-		triggerClientEvent(client,"onReturnCharacters",client,result)
+		for i,row in ipairs(result) do
+			if row.pass == pass then
+				spawnPlayer(client,0,0,0,0,98,0,0)
+				setCameraTarget(client,client)
+				triggerClientEvent(client,"successLogIn",client)
+			else
+				triggerClientEvent(client,"errorLogIn",client,"pass")
+			end
+		end	
+	else
+		triggerClientEvent(client,"errorLogIn",client,"login")
 	end
 end
 
 function onSelectCharacter(table)
-	faction = table.faction
-	if faction > 0 then
-		spawnPlayer(source, Faction_spawn[faction][1], 50, table.skin)
-		setCameraTarget(source,source)
-		setElementInterior(source,Faction_spawn[faction][2])
-	else
-		spawnPlayer(source, 391.658203125, -1524.560546875, 32.266296386719, 50, table.skin)
-		setCameraTarget(source,source)
-	end
-	setPlayerMoney(source,table.money,false)
-	parsePlayerVehicles(table)
-	dbExec(dbHandle,"INSERT INTO `online`(`id`, `nick`, `fr_id`, `alevel`) VALUES ("..getElementData(source,"id")..",'"..table.nick.."',"..table.faction..","..table.admin..")")
+	--dbExec(dbHandle,"INSERT INTO `online`(`id`, `nick`, `fr_id`, `alevel`) VALUES ("..getElementData(source,"id")..",'"..table.nick.."',"..table.faction..","..table.admin..")")
 end
-
-function onEndCreateCharacter(nick,skin,spawn,gender)
-	local qh = dbQuery(function(qh,client,nick,skin,spawn,gender)
-		local result = dbPoll(qh,0)
-		if #result == 0 then
-			if gender == "Мужской" then 
-				gender = 1 
-				walkstyle = 1
-			else 
-				gender = 2 
-				walkstyle = 4
-			end
-			dbExec(dbHandle,"INSERT INTO `accounts` (`nick`, `gender`, `skin`, `walkstyle`, `money`, `level`, `exp`, `faction`, `leader`, `admin`, `forumid`) VALUES ( '"..nick.."', '"..gender.."', '"..skin.."', '1', '1000', '1', '0', '0', '0', '0', '"..getElementData(client,"forumid").."')")
-			triggerClientEvent(client,"onSuccessCharacter",client)
-			spawnPlayer(client,0,0,0,0,skin)
-			setPlayerMoney(client,1000)
-			setElementData(client,"nick",nick)
-			setElementData(client,"logged",true)
-			setElementData(client,"walkstyle",walkstyle)
-			setCameraTarget(client,client)
-			showCursor(client,false)
-		else
-			triggerClientEvent(client,"onErrorCharacter",client)
-		end
-	end,{client,nick,skin,spawn,gender},dbHandle,"SELECT `nick` FROM `accounts` WHERE nick='"..nick.."'")
-end
-addEvent("getCharacters", true)
-addEvent("onClientEndRegister", true)
+addEvent("onPlayerLogIn",true)
 addEvent("onPlayerStartSignUp", true)
-addEvent("onClientSelectCharacter", true)
 addEvent("onEndCreateCharacter", true)
 
 addEventHandler("onPlayerLogIn", getRootElement(), onAuth)
 addEventHandler("onPlayerStartSignUp", getRootElement(), onSignIn)
-addEventHandler("onClientEndRegister",root,onEndRegister)
 addEventHandler( "onPlayerQuit", getRootElement(), onPlayerOff )
-addEventHandler("onClientSelectCharacter",root,onSelectCharacter)
-addEventHandler("onEndCreateCharacter",root,onEndCreateCharacter)

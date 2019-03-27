@@ -4,7 +4,24 @@ local loginMask = dxMaskTexture("Images/background-auth.png",screenW * 0.5,scree
 local regMask = dxMaskTexture("Images/background-reg.png",screenW * 0.5,screenH * 0.5)
 local cX,cY,cZ = math.random(0,2000),math.random(0,2000),math.random(5,100)
 local lX,lY,lZ = math.random(0,2000),math.random(0,2000),math.random(5,100)
-
+animateRectangles = {math.random(0,21),math.random(0,21),math.random(0,21),math.random(0,21)}
+edits = {
+    login = {
+        color = white,
+        bgcolor = tocolor(0,0,0,0),
+        textcolor = white
+    },
+    email = {
+        color = white,
+        bgcolor = tocolor(0,0,0,0),
+        textcolor = white
+    },
+    pass = {
+        color = white,
+        bgcolor = tocolor(0,0,0,0),
+        textcolor = white
+    }
+}
 Buttons = {
     login = {
         x = 0,
@@ -20,6 +37,9 @@ Buttons = {
         func = nil
     }
 }
+selectedMenu = "general"
+animList = {}
+
 
 function onClientJoinServer()
     fadeCamera(true,5)
@@ -100,20 +120,25 @@ function animateChange()
         dxSetRenderTarget()
         dxDrawImage(0,0,screenW * 0.5,screenH,rt)
         if rectangle.x == screenW * 0.5 then
-            removeEventHandler("onClientRender",root,func)
+            removeEventHandler("onClientRender",root,func,true,"low")
         end
         
     end
-    addEventHandler("onClientRender",root,func)
+    addEventHandler("onClientRender",root,func,true,"low")
 end
 
 function onClientClick()
     if isMouseInPosition(0,0,screenW * 0.5,screenH * 0.5) then
         onClientClickAuth()
+        selectedMenu = "login"
+        animateChange()
     elseif isMouseInPosition(0,screenH * 0.5,screenW * 0.5,screenH * 0.5) then
         animateBtn(Buttons.register,screenH * 0.51)
+        selectedMenu = "register"
+        animateChange()
+        onClientClickRegister()
     end
-    animateChange()
+    
 end
 addEventHandler("onClientClick",root,onClientClick)
 
@@ -130,7 +155,66 @@ function animateBtn(btnTable,y,duration)
             btnTable.y = interpolateBetween(btnTable.y,0,0,y,0,0,progress,"Linear")
         else
             removeEventHandler("onClientRender",root,func)
+            animList[func] = nil
         end
     end
+    animList[func] = true
     addEventHandler("onClientRender",root,func)
 end
+
+function onClientKeyInMenu(btn,press)
+    if press then
+        if btn == "backspace" then
+            if not(dgsGetFocusedGUI()) then
+                if selectedMenu ~= "general" then
+                    addEventHandler("onClientRender",root,onClientMove)
+                    addEventHandler("onClientClick",root,onClientClick)
+                    addEventHandler("onClientRender",root,dxDrawMainMenu)
+
+                    edits.login.color = white
+                    edits.login.bgcolor = tocolor(0,0,0,0)
+                    edits.login.textcolor = white
+                    edits.login.success = nil
+
+                    edits.pass.color = white
+                    edits.pass.bgcolor = tocolor(0,0,0,0)
+                    edits.pass.textcolor = white
+                    edits.pass.success = nil
+
+                    destroyElement(logEdit)
+                    destroyElement(passEdit)
+
+                    if selectedMenu == "login" then
+                        
+                        Buttons.login.y = 0
+                        Buttons.register.y = screenH
+                        selectedMenu = "general"
+                        removeEventHandler("onClientRender",root,dxDrawAuthMenu)
+                        removeEventHandler("onClientClick",root,onClickLoginBtn)
+                        removeEventHandler("onClientRender",root,onClientMoveLogin)
+                        removeEventHandler("onDgsEditAccepted",root,onAcceptLogEdits)
+
+                    elseif selectedMenu == "register" then
+                        selectedMenu = "general"
+                        edits.email.color = white
+                        edits.email.bgcolor = tocolor(0,0,0,0)
+                        edits.email.textcolor = white
+                        edits.email.success = nil
+
+                        destroyElement(emailEdit)
+                        removeEventHandler("onClientRender",root,dxDrawRegMenu)
+                        removeEventHandler("onDgsEditAccepted",root,onAcceptRegEdits)
+                        removeEventHandler("onClientClick",root,onClientClickRegBtn)
+                        removeEventHandler("onClientKey",root,onClientKeyInMenu)
+
+                    end
+                    animateChange()
+                    for i,func in pairs(animList) do
+                        removeEventHandler("onClientRender",root,i)
+                    end
+                end
+            end   
+        end
+    end
+end
+addEventHandler("onClientKey",root,onClientKeyInMenu)
