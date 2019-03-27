@@ -10,12 +10,11 @@ function onClientClickRegister()
 
     animateBtn(Buttons.login,screenH,2)
 
-    logEdit  =  dgsCreateEdit(screenW * 0.11,screenH * 0.64,screenW * 0.3 - 42,screenH * 0.04,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
-    emailEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.74,screenW * 0.3 - 42,screenH * 0.04,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
-    passEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.84,screenW * 0.3 - 42,screenH * 0.04,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
+    logEdit  =  dgsCreateEdit(screenW * 0.11,screenH * 0.64,screenW * 0.3 - 42,screenH * 0.04,"Test_Testov",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
+    emailEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.74,screenW * 0.3 - 42,screenH * 0.04,"dimdey@test.ru",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
+    passEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.84,screenW * 0.3 - 42,screenH * 0.04,"123456",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
     if not(ceraReg) then
         ceraReg = dgsCreateFont("Fonts/CeraPro-Regular.ttf",15,false,"antialiased")
-        dxCeraReg = dxCreateFont("Fonts/CeraPro-Regular.ttf",13,false,"antialiased")
     end
     dgsSetFont(logEdit,ceraReg)
     dgsSetFont(emailEdit,ceraReg)
@@ -178,7 +177,8 @@ function onAcceptRegEdits()
     end
     dgsSetProperty(emailEdit,"textColor",edits.email.textcolor)
     if edits.login.success and edits.email.success and edits.pass.success then
-        triggerServerEvent("onPlayerStartSignUp",localPlayer,login,pass,email)
+        --triggerServerEvent("onPlayerStartSignUp",localPlayer,login,pass,email)
+        onSuccessEdits()
     end
 end
 
@@ -206,16 +206,25 @@ function onSuccessEdits()
 
     personAge = 21
     personSkins = {
-        [1] = {1,2,3},
-        [2] = {4,5,6},
-        [3] = {7,8,9}
+        [1] = {
+            [1] = {0,1,2},
+            [2] = {7,9,10},
+            [3] = {11,12,13}
+        },
+        [2] = {
+            [1] = {14,15,21},
+            [2] = {23,92,228},
+            [3] = {112,22,28}
+        }
     }
     personSelectedSkin = 1
     personSelectedRace = 1
-    ped = createPed(90,0,0,5)
-    setElementModel(ped,personSkins[personSelectedRace][personSelectedSkin])
-    setCameraMatrix(0,-4,5,0,0,5)
-    setCameraTarget(ped)
+    personSelectedGender = 1
+    setElementPosition(localPlayer,0,0,3)
+    setElementRotation(localPlayer,0,0,90)
+    setElementModel(localPlayer,personSkins[personSelectedGender][personSelectedRace][personSelectedSkin])
+    setCameraTarget(localPlayer)
+    setCameraMatrix(-2,-2,3.5,-1,0,3.5)
 end
 addEvent("onSuccessEdits",true)
 addEventHandler("onSuccessEdits",root,onSuccessEdits)

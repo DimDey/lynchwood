@@ -120,11 +120,11 @@ function animateChange()
         dxSetRenderTarget()
         dxDrawImage(0,0,screenW * 0.5,screenH,rt)
         if rectangle.x == screenW * 0.5 then
-            removeEventHandler("onClientRender",root,func,true,"low")
+            removeEventHandler("onClientRender",root,func,true,"low-100")
         end
         
     end
-    addEventHandler("onClientRender",root,func,true,"low")
+    addEventHandler("onClientRender",root,func,true,"low-100")
 end
 
 function onClientClick()
@@ -205,7 +205,6 @@ function onClientKeyInMenu(btn,press)
                         removeEventHandler("onClientRender",root,dxDrawRegMenu)
                         removeEventHandler("onDgsEditAccepted",root,onAcceptRegEdits)
                         removeEventHandler("onClientClick",root,onClientClickRegBtn)
-                        removeEventHandler("onClientKey",root,onClientKeyInMenu)
 
                     end
                     animateChange()

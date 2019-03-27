@@ -22,6 +22,8 @@ SERVERCOLORS = {
 	RED     =  tocolor(236,32,32)
 }
 
+exports.dgs:dgsSetRenderSetting("postGUI",false)
+exports.dgs:dgsSetRenderSetting("renderPriority","normal-1")
 showChat(false)
 -- регистрация и авторизация
 editWidth = 400
