@@ -15,10 +15,16 @@ end
 
 function itHaveVehicleKeys(vehicle)
     local keys = false
-    if getElementData(vehicle,"pid") == getElementData(lp, "tableid") then
-        keys = true
-    elseif getElementData(vehicle, "frid") == getElementData(lp, "faction") then
-        keys = true
+    if getElementData(vehicle,"frid") then
+        outputDebugString(getElementData(localPlayer,"faction"))
+        if getElementData(vehicle,"frid") == getElementData(localPlayer,"faction") then
+            keys = true
+        end
+    elseif getElementData(vehicle,"pid") then
+        outputDebugString(vehicle,"pid")
+        if getElementData(vehicle,"pid") == getElementData(localPlayer,"tableid") then
+            keys = true
+        end
     end
     return keys
 end

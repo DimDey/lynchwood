@@ -10,6 +10,7 @@
 	<file src="Images/background-auth.png" type="client" />
 	<file src="Images/background-reg.png" type="client" />
 	<file src="Images/background-login.png" type="client" />
+	<file src="Images/clear.png" type="client" />
 
 	<file src="Fonts/fontawesome.ttf" type="client" />
 	<file src="Fonts/BebasNeue Bold.otf" type="client" />
@@ -52,6 +53,9 @@
 
 	<script src="Client/audio_sys.lua" type="client" cache="false" />
 
+	<script src="Client/interaction.lua" type="client" cache="false" />
+	<script src="Client/realistic_nights.lua" type="client" cache="false" />
+
 	<script src="Client/house_building.lua" type="client" cache="false" />
 	<script src="Client/vignette.lua" type="client" cache="false" />
 
@@ -65,9 +69,10 @@
 	<script src="Server/functions.lua" type="server" />
 	<script src="Server/login.lua" type="server" />
 	<script src="Server/faction.lua" type="server"/>
-	<script src="Server/chat_functions.lua" type="shared" />
+	<script src="Server/chat_functions.lua" type="server" />
 	<script src="Server/weather.lua" type="server" />
 	<script src="Server/autosys.lua" type="server" />
+	<script src="Server/interaction.lua" type="server"/>
 
 	<file src="Shaders/mta-helper.fx" type="client" />
 
@@ -76,6 +81,10 @@
 	
 	<file src="Shaders/mask.fx" type="client" />
 	<file src="Shaders/vignette.fx" type="client" />
+
+	<file src="Shaders/ped-stroke.fx" type="client" />
+	<file src="Shaders/clear.fx" type="client" />
+
 
 	<file src="Shaders/login_blur.c" type="client" />
 

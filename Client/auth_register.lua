@@ -10,9 +10,9 @@ function onClientClickRegister()
 
     animateBtn(Buttons.login,screenH,2)
 
-    logEdit  =  dgsCreateEdit(screenW * 0.11,screenH * 0.64,screenW * 0.3 - 42,screenH * 0.04,"Test_Testov",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
-    emailEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.74,screenW * 0.3 - 42,screenH * 0.04,"dimdey@test.ru",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
-    passEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.84,screenW * 0.3 - 42,screenH * 0.04,"123456",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
+    logEdit  =  dgsCreateEdit(screenW * 0.11,screenH * 0.64,screenW * 0.3 - 42,screenH * 0.04,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
+    emailEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.74,screenW * 0.3 - 42,screenH * 0.04,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
+    passEdit = dgsCreateEdit(screenW * 0.11,screenH * 0.84,screenW * 0.3 - 42,screenH * 0.04,"",false,nil,tocolor(255,255,255),1,1,nil,tocolor(0,0,0,0))
     if not(ceraReg) then
         ceraReg = dgsCreateFont("Fonts/CeraPro-Regular.ttf",15,false,"antialiased")
     end
@@ -76,12 +76,6 @@ function dxDrawRegMenu()
     dxDrawLine(0,screenH * 0.55,screenW * 0.5,screenH * 0.55,tocolor(255,255,255,50))
     dxDrawLine(0,screenH * 0.95,screenW * 0.5,screenH * 0.95,tocolor(255,255,255,50))
 
-    dxSetRenderTarget(regRt,true)
-    dxDrawRectangle(screenW * 0.05 - 1,animateRectangles[1],3,10,SERVERCOLORS.GENERAL)
-    dxDrawRectangle(screenW * 0.45 - 1,animateRectangles[2],3,10,SERVERCOLORS.GENERAL)
-    dxDrawRectangle(animateRectangles[3],screenH * 0.55 - 1,10,3,SERVERCOLORS.GENERAL)
-    dxDrawRectangle(animateRectangles[4],screenH * 0.95 - 1,10,3,SERVERCOLORS.GENERAL)
-
     dxDrawRectangle(screenW * 0.1,screenH * 0.68,screenW * 0.3,2,edits.login.color)
     dxDrawRectangle(screenW * 0.1,screenH * 0.64,screenW * 0.3,screenH * 0.04,edits.login.bgcolor)
 
@@ -90,6 +84,12 @@ function dxDrawRegMenu()
 
     dxDrawRectangle(screenW * 0.1,screenH * 0.78,screenW * 0.3,2,edits.email.color)
     dxDrawRectangle(screenW * 0.1,screenH * 0.74,screenW * 0.3,screenH * 0.04,edits.email.bgcolor)
+
+    dxSetRenderTarget(regRt,true)
+    dxDrawRectangle(screenW * 0.05 - 1,animateRectangles[1],3,10,SERVERCOLORS.GENERAL)
+    dxDrawRectangle(screenW * 0.45 - 1,animateRectangles[2],3,10,SERVERCOLORS.GENERAL)
+    dxDrawRectangle(animateRectangles[3],screenH * 0.55 - 1,10,3,SERVERCOLORS.GENERAL)
+    dxDrawRectangle(animateRectangles[4],screenH * 0.95 - 1,10,3,SERVERCOLORS.GENERAL)
     dxSetRenderTarget()
 
     for k,pos in ipairs(animateRectangles) do
@@ -177,8 +177,7 @@ function onAcceptRegEdits()
     end
     dgsSetProperty(emailEdit,"textColor",edits.email.textcolor)
     if edits.login.success and edits.email.success and edits.pass.success then
-        --triggerServerEvent("onPlayerStartSignUp",localPlayer,login,pass,email)
-        onSuccessEdits()
+        triggerServerEvent("onPlayerStartSignUp",localPlayer,login,pass,email)
     end
 end
 

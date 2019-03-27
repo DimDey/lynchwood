@@ -8,11 +8,13 @@ function regCallback(qh,client,nick,pass,email)
 		if #result == 0 then
 			pass = base64Encode(pass)
 			dbExec(dbHandle,"INSERT INTO `accounts` (`id`, `nick`, `email`, `pass`, `faction`, `admin`) VALUES (NULL, '"..nick.."', '"..email.."', '"..pass.."', '0', '0');")
+			
 			triggerClientEvent(client,"onSuccessEdits",client)
 		else
 			triggerClientEvent(client,"onErrorEdits",client)
 		end
 	end
+	dbFree(qh)
 end
 
 function onPlayerOff( )
@@ -23,7 +25,13 @@ function onPlayerOff( )
 			destroyElement(vehicle)
 		end
 	end
+	dbExec(dbHandle,"DELETE FROM `online` WHERE `online`.`nick` = '"..getElementData(source,"nick").."'")
 end
+
+function clearOnline()
+	dbExec(dbHandle,"TRUNCATE `online`")
+end
+addEventHandler("onResourceStop",resourceRoot,clearOnline)
 
 function onAuth(login,pass)
 	pass = base64Encode(pass)
@@ -38,6 +46,11 @@ function authCallback(qh,client,pass)
 				spawnPlayer(client,0,0,0,0,98,0,0)
 				setCameraTarget(client,client)
 				triggerClientEvent(client,"successLogIn",client)
+				dbExec(dbHandle,"INSERT INTO `online` (`id`, `nick`, `fr_id`, `alevel`) VALUES ('"..row.id.."', '"..row.nick.."', '"..row.faction.."', '"..row.admin.."')")
+				setElementData(client,"nick",row.nick)
+				setElementData(client,"logged",true)
+				setElementData(client,"faction",tonumber(row.faction))
+				setElementData(client,"alevel",row.admin)
 			else
 				triggerClientEvent(client,"errorLogIn",client,"pass")
 			end
@@ -45,6 +58,7 @@ function authCallback(qh,client,pass)
 	else
 		triggerClientEvent(client,"errorLogIn",client,"login")
 	end
+	dbFree(qh)
 end
 
 function onSelectCharacter(table)

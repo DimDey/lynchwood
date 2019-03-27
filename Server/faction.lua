@@ -1,22 +1,25 @@
 
-function FactionSendMessage(player,msg)
+function FactionSendMessage(player,msg,ooc)
 	if getElementData(player,"faction") ~= 0 then
-		local query = dbQuery(factionChatCallback,{player,msg},dbHandle,"SELECT id FROM `online` WHERE fr_id='"..getElementData(player,"faction").."'")
+		local query = dbQuery(factionChatCallback,{player,msg,ooc},dbHandle,"SELECT nick FROM `online` WHERE fr_id='"..getElementData(player,"faction").."'")
 	end
 end
 
-function factionChatCallback(qh,player,msg)
+function factionChatCallback(qh,player,msg,ooc)
 	local result = dbPoll(qh,0)
 	if result then
 		local rank = getElementData(player,"rank")
 		local name = getElementData(player,"nick")
 		local faction = getElementData(player,"faction")
-		local rankname = Faction_list[faction]["ranks"][tostring(rank)]
 		local playersend = {}
 		for col,row in ipairs(result) do
-			playersend[#playersend+1] = ids[row.id]
+			if ooc then
+				triggerClientEvent(getPlayerByNick(row.nick),"outputChatMessage",player,"(( РАЦИЯ: "..name..": "..msg.." ))")
+			else
+				triggerClientEvent(getPlayerByNick(row.nick),"outputChatMessage",player,"РАЦИЯ: "..name..": "..msg)
+			end
+			
 		end
-		triggerClientEvent(playersend,"outputChatMessage",player,rankname.." "..name..": "..msg)
 	end
 end
 
@@ -48,21 +51,26 @@ function parseFactionRanks(qh)
 	end
 end
 
-function FactionUpdateRank()
-	if frid ~= 0 then
-		local qh = dbQuery(parseFactionRank,{frid},dbHandle,"SELECT `rank_names` FROM `faction` WHERE id='"..frid.."'")
-	end
+function getElementFaction(element)
+	return getElementData(element,"faction") or false
 end
 
-function parseFactionRank(qh,frid)
+function parseFactionCars(qh)
 	local result = dbPoll(qh,0)
 	if result then
-		for col,row in ipairs(result) do
-			Faction_list[frid]["ranks"] = fromJSON(row.rank_names)
+		for i,row in ipairs(result) do
+			veh = createVehicle(row.modelid,row.sx,row.sy,row.sz,row.rx,row.ry,row.rz,row.number)
+			setVehicleColor(veh,row.r,row.g,row.b)
+			setElementData(veh,"carid",row.carid)
+			setElementData(veh,"frid",row.frid)
+			setElementData(veh,"fuel",row.fuel)
+			setElementData(veh,"broken",row.broken)
+			setElementData(veh,"odometer",row.odometer)
 		end
 	end
 end
 
-function getElementFaction(element)
-	return getElementData(element,"faction") or false
+function FactionUpdateCars()
+	local qh = dbQuery(parseFactionCars,getDbConnection(),"SELECT * FROM `vehicles` WHERE frid")
 end
+addEventHandler("onResourceStart",resourceRoot,FactionUpdateCars)

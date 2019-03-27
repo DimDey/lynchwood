@@ -13,17 +13,18 @@ addEventHandler("sendCommand",root, onCommand)
 
 
 function cmd_a(args)
-	local qh = dbQuery(function(qh,sourcePlayer,args)
-		local result = dbPoll(qh,0)
-		if result then
-			admins_table = {}
-			for k,row in ipairs(result) do
-				if row.alevel > 0 then
-					triggerClientEvent( {getPlayerByNick(row.nick)}, "outputAdminChatMessage", sourcePlayer, getElementData(sourcePlayer,"nick")..": ", args )
+	if getElementData(source,"alevel") > 0 then
+		local qh = dbQuery(function(qh,sourcePlayer,args)
+			local result = dbPoll(qh,0)
+			if result then
+				for k,row in ipairs(result) do
+					if row.alevel > 0 then
+						triggerClientEvent( {getPlayer(row.nick)}, "outputAdminChatMessage", sourcePlayer, getElementData(sourcePlayer,"nick")..": ", args )
+					end
 				end
 			end
-		end
-	end,{source,args},dbHandle,"SELECT `alevel`,`id` FROM `online`")
+		end,{source,args},dbHandle,"SELECT `alevel`,`id` FROM `online`")
+	end
 end
 
 function doAchat(qh,source,args)
@@ -181,9 +182,22 @@ function cmd_r(args)
 		FactionSendMessage(source,msg)
 	end
 end
+function cmd_rb(args)
+	if args[1] ~= nil then
+		local msg = ""
+		for i=1,#args do
+			msg = msg.." "..args[i]
+		end
+		FactionSendMessage(source,msg,true)
+	end
+end
 
 function cmd_invite(args)
+	if isLeader(source) then
 
+	else
+		triggerClientEvent()
+	end
 end
 
 function cmd_uninvite(args)
@@ -199,10 +213,10 @@ function cmd_members()
 		local qh = dbQuery(function(qh,sourcePlayer)
 			local result = dbPoll(qh,0)
 			if result then
-				triggerClientEvent("outputChatMessage",sourcePlayer,"Онлайн фракции: ")	
+				triggerClientEvent(sourcePlayer,"outputChatMessage",sourcePlayer,"Онлайн фракции: ")	
 				for _,row in ipairs(result) do
-					player = getPlayerByID(row.id)
-					triggerClientEvent("outputChatMessage",sourcePlayer,getElementData(player,"nick"))
+					player = getPlayer(row.nick)
+					triggerClientEvent(sourcePlayer,"outputChatMessage",sourcePlayer,row.nick.."[ "..getElementData(player,"id").." ]")
 				end
 				dbFree(qh)
 			end
@@ -320,9 +334,9 @@ function cmd_park()
 		local x,y,z = getElementPosition(veh)
 		local rX,rY,rZ = getElementRotation(veh)
 		dbExec(dbHandle,"UPDATE `vehicles` SET `sx` = '"..x.."', `sy` = '"..y.."', `sz` = '"..z.."', rx = '"..rX.."', ry = '"..rY.."', rz='"..rZ.."' WHERE `vehicles`.`carid` = '"..getElementData(veh,"id").."'")
-		triggerClientEvent("outputChatMessage",source,"Вы успешно перепарковали ваше авто!")
+		triggerClientEvent(source,"outputChatMessage",source,"Вы успешно перепарковали ваше авто!")
 	else
-		triggerClientEvent("outputChatMessage",source,"Это не ваше ТС!")
+		triggerClientEvent(source,"outputChatMessage",source,"Это не ваше ТС!")
 	end
 end
 

@@ -197,13 +197,14 @@ function onSuccessLogIn()
     removeEventHandler("onClientRender",root,onClientMoveLogin)
     removeEventHandler("onDgsEditAccepted",root,onAcceptLogEdits)
     removeEventHandler("onClientRender",root,movePlayerCamera)
+    removeEventHandler("onClientKey",root,onClientKeyInMenu)
     setCameraTarget(localPlayer)
+    
     destroyElement(logEdit)
     destroyElement(passEdit)
     destroyElement(bebasreg)
     destroyElement(fontawesome)
     showCursor(false)
-
 end
 addEvent("successLogIn",true)
 addEventHandler("successLogIn",root,onSuccessLogIn)

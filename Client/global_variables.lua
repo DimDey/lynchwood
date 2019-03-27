@@ -57,3 +57,14 @@ function timestamp( )
 	end
 end
 addEventHandler("onClientRender",root,timestamp)
+
+
+addEventHandler("onClientResourceStart",resourceRoot,function() -- отключение света в городах
+    local shader = dxCreateShader("Shaders/clear.fx") 
+    local texture = dxCreateTexture("Images/clear.png") 
+    dxSetShaderValue(shader,"gTexture",texture) 
+	engineApplyShaderToWorldTexture(shader,"coronastar") 
+	engineApplyShaderToWorldTexture(shader,"shad_exp") 
+	engineApplyShaderToWorldTexture(shader,"handman")
+	setTrafficLightState ( "disabled" )
+end) 
