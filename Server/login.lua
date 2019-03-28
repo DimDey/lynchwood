@@ -43,7 +43,9 @@ function authCallback(qh,client,pass)
 	if result then
 		for i,row in ipairs(result) do
 			if row.pass == pass then
-				spawnPlayer(client,0,0,0,0,98,0,0)
+				local playerCol = createColSphere(104.91021728516, 14.568968772888, 0.63683533668518,1)
+				attachElements(playerCol,client)
+				spawnPlayer(client,104.91021728516, 14.568968772888, 0.63683533668518,0,98,0,0)
 				setCameraTarget(client,client)
 				triggerClientEvent(client,"successLogIn",client)
 				dbExec(dbHandle,"INSERT INTO `online` (`id`, `nick`, `fr_id`, `alevel`) VALUES ('"..row.id.."', '"..row.nick.."', '"..row.faction.."', '"..row.admin.."')")

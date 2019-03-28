@@ -1,7 +1,5 @@
 #include "mta-helper.fx"
 
-float3 lineColor = float3(1,0.41,0.07);
-
 sampler Sampler0 = sampler_state
 {
     Texture = (gTexture0);
@@ -22,32 +20,23 @@ struct PSInput
     float2 TexCoord : TEXCOORD0;
 };
 
-struct PSOutput
-{
-	float4 Color0 : COLOR0;
-};
-
 PSInput VertexShaderFunction(VSInput VS)
 {
     PSInput PS = (PSInput)0;
 
-    VS.Position += VS.Normal * 0.01;
     PS.Position = MTACalcScreenPosition ( VS.Position );
     PS.TexCoord = VS.TexCoord;
-
     PS.Diffuse = MTACalcGTABuildingDiffuse( VS.Diffuse );
+	
+	//float3 WorldNormal = MTACalcWorldNormal( VS.Normal );
+    //PS.Diffuse = MTACalcGTAVehicleDiffuse( WorldNormal, VS.Diffuse );
 
     return PS;
 }
 
-PSOutput PixelShaderFunction(PSInput PS)
+float4 PixelShaderFunction(PSInput PS) : COLOR0
 {
-	PSOutput Output;
-	
-	float4 texel = tex2D( Sampler0, PS.TexCoord );
-	Output.Color0 = float4( lineColor, texel.a );
- 
-	return Output;
+	return tex2D(Sampler0, PS.TexCoord) * PS.Diffuse;
 }
 
 technique tec0
@@ -57,7 +46,7 @@ technique tec0
         VertexShader = compile vs_2_0 VertexShaderFunction();
         PixelShader = compile ps_2_0 PixelShaderFunction();
 		ZWriteEnable = TRUE;
-		DepthBias = 0.001f;
+		DepthBias = -0.002f;
     }
 }
 
@@ -65,6 +54,6 @@ technique fallback
 {
     pass P0
     {
-        
+
     }
 }

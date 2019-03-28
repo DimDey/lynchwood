@@ -61,10 +61,34 @@ addEventHandler("onClientRender",root,timestamp)
 
 addEventHandler("onClientResourceStart",resourceRoot,function() -- отключение света в городах
     local shader = dxCreateShader("Shaders/clear.fx") 
-    local texture = dxCreateTexture("Images/clear.png") 
-    dxSetShaderValue(shader,"gTexture",texture) 
+    dxSetShaderValue(shader, "color", { 0.0, 0.0, 0.0, 0.0 } ); 
 	engineApplyShaderToWorldTexture(shader,"coronastar") 
 	engineApplyShaderToWorldTexture(shader,"shad_exp") 
-	engineApplyShaderToWorldTexture(shader,"handman")
+	engineApplyShaderToWorldTexture(shader,"handman") 
+	engineApplyShaderToWorldTexture(shader,"sl_dtwinlights*") 
+	engineApplyShaderToWorldTexture(shader,"*nite") 
+	engineApplyShaderToWorldTexture(shader,"*night") 
 	setTrafficLightState ( "disabled" )
 end) 
+
+local texturesimg = {
+	{"Images/Textures/1.png", "collisionsmoke"},
+	{"Images/Textures/2.png", "particleskid"},
+	{"Images/Textures/3.png", "cloudmasked"},
+	{"Images/Textures/3.png", "cardebris_01"},
+	{"Images/Textures/3.png", "cardebris_02"},
+	{"Images/Textures/3.png", "cardebris_03"},
+	{"Images/Textures/3.png", "cardebris_04"},
+	{"Images/Textures/3.png", "cardebris_05"},
+	{"Images/Textures/4.png", "headlight1"},
+	{"Images/Textures/5.png", "headlight"},
+	{"Images/Textures/3.png", "cloudhigh"}
+}
+addEventHandler("onClientResourceStart", resourceRoot, function()
+	for i = 1, #texturesimg do
+		local shader = dxCreateShader("Shaders/retexture.fx")
+		engineApplyShaderToWorldTexture(shader, texturesimg[i][2])
+		dxSetShaderValue(shader, "Tex0", dxCreateTexture(texturesimg[i][1]))
+	end
+end)
+	

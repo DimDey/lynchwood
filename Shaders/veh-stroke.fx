@@ -1,6 +1,6 @@
 #include "mta-helper.fx" 
   
-float4 color = 1; 
+float4 color = float4(1,0.41,0.07,0.6); 
   
 sampler Sampler0 : register( s0 ); 
   
@@ -30,7 +30,7 @@ PSInput VertexShaderFunction( VSInput VS )
     PS.Position     = position; 
     PS.TexCoord     = VS.TexCoord; 
      
-    PS.Diffuse      = MTACalcGTABuildingDiffuse( VS.Diffuse ); 
+    PS.Diffuse      = MTACalcGTAVehicleDiffuse( VS.Normal, VS.Diffuse ); 
      
     return PS; 
 } 

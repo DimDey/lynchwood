@@ -205,6 +205,7 @@ function onSuccessLogIn()
     destroyElement(bebasreg)
     destroyElement(fontawesome)
     showCursor(false)
+    PlayerComps["chattoggle"] = true
 end
 addEvent("successLogIn",true)
 addEventHandler("successLogIn",root,onSuccessLogIn)

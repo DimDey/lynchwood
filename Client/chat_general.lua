@@ -9,21 +9,23 @@ chat_entries_index = 1
 chat_index = 0
 
 function chatCheck( )
-	if isLogged(lp) then
-		if chat_opened == 0 then -- если чат не открыт
-			addEventHandler("onClientRender",root,openChat) -- отрисовка обводки
-			chat_opened = 1 
-			dgsSetVisible(chatBox,true) -- показываем чатбокс
-			dgsBringToFront( chatBox ) -- переместить на передний фон
-			dgsEditSetCaretPosition( chatBox, 1 ) -- установить курсор на 1 символ
-			chat_focus = 1
-			showCursor(true)
-		elseif chat_opened == 1 then -- если чат открыт
-			removeEventHandler("onClientRender",root,openChat) -- убираем отрисовку обводки
-			chat_opened = 0
-			chat_focus = 0
-			dgsSetVisible(chatBox,false) -- убираем чатбокс
-			showCursor(false)
+	if PlayerComps["chattoggle"] then
+		if isLogged(lp) then
+			if chat_opened == 0 then -- если чат не открыт
+				addEventHandler("onClientRender",root,openChat) -- отрисовка обводки
+				chat_opened = 1 
+				dgsSetVisible(chatBox,true) -- показываем чатбокс
+				dgsBringToFront( chatBox ) -- переместить на передний фон
+				dgsEditSetCaretPosition( chatBox, 1 ) -- установить курсор на 1 символ
+				chat_focus = 1
+				showCursor(true)
+			elseif chat_opened == 1 then -- если чат открыт
+				removeEventHandler("onClientRender",root,openChat) -- убираем отрисовку обводки
+				chat_opened = 0
+				chat_focus = 0
+				dgsSetVisible(chatBox,false) -- убираем чатбокс
+				showCursor(false)
+			end
 		end
 	end
 end

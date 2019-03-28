@@ -56,7 +56,7 @@ function updateVehData(veh,seat,thePlayer)
         local broken = getElementData(veh,"broken")
 		local fuel = getElementData(veh,"fuel")
 		local odometer = getElementData(veh,"odometer")
-        local id = getElementData(veh,"id")
+        local id = getElementData(veh,"carid")
 		dbExec(dbHandle,"UPDATE `vehicles` SET `fuel` = '"..fuel.."', `broken`='"..broken.."', `odometer`='"..odometer.."' WHERE `carid` = "..id..";")
 	end
 end

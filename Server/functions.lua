@@ -47,3 +47,20 @@ function getPlayer(player)
     end
 	return player
 end
+payday = {
+	started = false,
+	inital = function()
+		local time = getRealTime()
+		local hours = time.hour
+		local minutes = time.minute
+		local seconds = time.second
+		if time.minute == 0 then
+			if not(payday.started) then
+				payday.started = true
+				outputDebugString("PAYDAY")
+				payday.started = false
+			end
+		end
+	end
+}
+setTimer(payday.inital,60000,0)

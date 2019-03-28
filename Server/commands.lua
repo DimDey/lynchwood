@@ -330,10 +330,10 @@ end
 
 function cmd_park()
 	local veh = getPedOccupiedVehicle(source)
-	if getElementData(veh,"pid") == getElementData(source,"tableid") then
+	if itHaveVehicleKeys(source,veh) then
 		local x,y,z = getElementPosition(veh)
 		local rX,rY,rZ = getElementRotation(veh)
-		dbExec(dbHandle,"UPDATE `vehicles` SET `sx` = '"..x.."', `sy` = '"..y.."', `sz` = '"..z.."', rx = '"..rX.."', ry = '"..rY.."', rz='"..rZ.."' WHERE `vehicles`.`carid` = '"..getElementData(veh,"id").."'")
+		dbExec(dbHandle,"UPDATE `vehicles` SET `sx` = '"..x.."', `sy` = '"..y.."', `sz` = '"..z.."', rx = '"..rX.."', ry = '"..rY.."', rz='"..rZ.."' WHERE `vehicles`.`carid` = '"..getElementData(veh,"carid").."'")
 		triggerClientEvent(source,"outputChatMessage",source,"Вы успешно перепарковали ваше авто!")
 	else
 		triggerClientEvent(source,"outputChatMessage",source,"Это не ваше ТС!")
@@ -352,4 +352,16 @@ end
 
 function cmd_drawgrid()
 	triggerClientEvent(client,"showGrid",client)
+end
+
+function cmd_anim(args)
+	local block = args[1]
+	local anim = args[2]
+	setPedAnimation(source,block,anim)
+	bindKey(source,"enter","down",unAnim,source)
+end
+
+function unAnim(pl)
+	unbindKey(pl,"enter","down",unAnim)
+	setPedAnimation(pl)
 end

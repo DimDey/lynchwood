@@ -10,7 +10,14 @@
 	<file src="Images/background-auth.png" type="client" />
 	<file src="Images/background-reg.png" type="client" />
 	<file src="Images/background-login.png" type="client" />
-	<file src="Images/clear.png" type="client" />
+
+	<file src="Images/Textures/clear.png" type="client" />
+	
+	<file src="Images/Textures/1.png"/>
+	<file src="Images/Textures/2.png"/>
+	<file src="Images/Textures/3.png"/>
+	<file src="Images/Textures/4.png"/>
+	<file src="Images/Textures/5.png"/>
 
 	<file src="Fonts/fontawesome.ttf" type="client" />
 	<file src="Fonts/BebasNeue Bold.otf" type="client" />
@@ -78,11 +85,15 @@
 
 	<file src="Shaders/dBlurH.fx" type="client" />
 	<file src="Shaders/dBlurV.fx" type="client" />
+
+	<file src="Shaders/retexture.fx" type="client" />
 	
 	<file src="Shaders/mask.fx" type="client" />
 	<file src="Shaders/vignette.fx" type="client" />
 
 	<file src="Shaders/ped-stroke.fx" type="client" />
+	<file src="Shaders/veh-stroke.fx" type="client" />
+	<file src="Shaders/obj-stroke.fx" type="client" />
 	<file src="Shaders/clear.fx" type="client" />
 
 

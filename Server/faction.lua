@@ -60,6 +60,8 @@ function parseFactionCars(qh)
 	if result then
 		for i,row in ipairs(result) do
 			veh = createVehicle(row.modelid,row.sx,row.sy,row.sz,row.rx,row.ry,row.rz,row.number)
+			local vehCol = createColSphere(row.sx,row.sy,row.sz,2)
+			attachElements(vehCol,veh)
 			setVehicleColor(veh,row.r,row.g,row.b)
 			setElementData(veh,"carid",row.carid)
 			setElementData(veh,"frid",row.frid)

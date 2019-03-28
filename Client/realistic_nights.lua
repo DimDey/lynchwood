@@ -40,6 +40,7 @@ setTimer(function()
 		setFogDistance(-intens + (intens/180 * (tm-120)))
 	end
 	if ((th > 5) and (th < 20)) then
-		resetSkyGradient()
+		setFogDistance(1)
+		setSkyGradient(50,50,40,30,30,30)
 	end
 end, 100, 0)

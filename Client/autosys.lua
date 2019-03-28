@@ -13,22 +13,6 @@ function engineCheck(theVehicle)
     end
 end
 
-function itHaveVehicleKeys(vehicle)
-    local keys = false
-    if getElementData(vehicle,"frid") then
-        outputDebugString(getElementData(localPlayer,"faction"))
-        if getElementData(vehicle,"frid") == getElementData(localPlayer,"faction") then
-            keys = true
-        end
-    elseif getElementData(vehicle,"pid") then
-        outputDebugString(vehicle,"pid")
-        if getElementData(vehicle,"pid") == getElementData(localPlayer,"tableid") then
-            keys = true
-        end
-    end
-    return keys
-end
-
 function vehCheck(theVehicle)
     if tonumber(getElementData(theVehicle,"broken")) == 0 then
         if getElementData(theVehicle,"fuel") > 0 then
