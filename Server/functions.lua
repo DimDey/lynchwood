@@ -1,10 +1,11 @@
 function isLogged(thePlayer) -- проверка на авторизацию
 	return getElementData(thePlayer, "logged")
 end
+players = getElementsByType ( "player" )
 
 function removeData(res)
 	if res == resource then
-		local players = getElementsByType ( "player" )
+		
 		for theKey,thePlayer in ipairs(players) do -- use a generic for loop to step through each player
 			setElementData(thePlayer,"skin",nil)
 			--dbExec(getDbConnection(),"DELETE FROM `online` WHERE id='"..getElementData(thePlayer,"id").."'")
@@ -47,20 +48,3 @@ function getPlayer(player)
     end
 	return player
 end
-payday = {
-	started = false,
-	inital = function()
-		local time = getRealTime()
-		local hours = time.hour
-		local minutes = time.minute
-		local seconds = time.second
-		if time.minute == 0 then
-			if not(payday.started) then
-				payday.started = true
-				outputDebugString("PAYDAY")
-				payday.started = false
-			end
-		end
-	end
-}
-setTimer(payday.inital,60000,0)

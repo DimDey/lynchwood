@@ -10,7 +10,7 @@ function dxDrawTabList()
 			local x,y,z = getElementPosition(lp)
 			ypos = screenH * (198/sY)
 			count = 0
-			dxDrawImage((screenW - 582) / 2, (screenH - 607) / 2, 582, 607, "Images/tablist/tabmask.png")
+			--dxDrawImage((screenW - 582) / 2, (screenH - 607) / 2, 582, 607, "Images/tablist/tabmask.png")
 			dxDrawText(getZoneName(x,y,z), screenW * (519/sX), screenH * (160/sY), 659, 182, tocolor(255, 255, 255, 255), 1.00, "default", "center", "center")
 			for i,player in pairs(players) do
 				local id = tostring(getElementData(player,"id"))

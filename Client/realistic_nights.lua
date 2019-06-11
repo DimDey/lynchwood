@@ -40,7 +40,18 @@ setTimer(function()
 		setFogDistance(-intens + (intens/180 * (tm-120)))
 	end
 	if ((th > 5) and (th < 20)) then
-		setFogDistance(1)
-		setSkyGradient(50,50,40,30,30,30)
+		
 	end
+	setFogDistance(0)
+	resetSkyGradient()
 end, 100, 0)
+
+
+addEventHandler("onClientResourceStart",resourceRoot,function() -- отключение света в городах
+    local shader = dxCreateShader("Shaders/clear.fx") 
+    dxSetShaderValue(shader, "color", { 0.0, 0.0, 0.0, 0.0 } ); 
+	engineApplyShaderToWorldTexture(shader,"coronastar") 
+	engineApplyShaderToWorldTexture(shader,"shad_exp") 
+	engineApplyShaderToWorldTexture(shader,"handman") 
+	setTrafficLightState ( "disabled" )
+end) 

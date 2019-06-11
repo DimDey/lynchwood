@@ -1,38 +1,57 @@
-
-function FactionSendMessage(player,msg,ooc)
-	if getElementData(player,"faction") ~= 0 then
-		local query = dbQuery(factionChatCallback,{player,msg,ooc},dbHandle,"SELECT nick FROM `online` WHERE fr_id='"..getElementData(player,"faction").."'")
-	end
-end
-
-function factionChatCallback(qh,player,msg,ooc)
-	local result = dbPoll(qh,0)
-	if result then
-		local rank = getElementData(player,"rank")
-		local name = getElementData(player,"nick")
-		local faction = getElementData(player,"faction")
-		local playersend = {}
-		for col,row in ipairs(result) do
-			if ooc then
-				triggerClientEvent(getPlayerByNick(row.nick),"outputChatMessage",player,"(( РАЦИЯ: "..name..": "..msg.." ))")
-			else
-				triggerClientEvent(getPlayerByNick(row.nick),"outputChatMessage",player,"РАЦИЯ: "..name..": "..msg)
-			end
-			
+faction = {
+	list = {},
+	get = function(player) 
+		if not(isElement(player)) then
+			player = getPlayer(player)
 		end
-	end
-end
+		local frid = getElementData(player,"frid")
+		if frid then
+			return faction.list[frid]
+		end
+	end,
+	send = function(player,msg,ooc)
+		if getElementData(player,"faction") ~= 0 then
+			local query = dbQuery(faction.sendCallback,{player,msg,ooc},dbHandle,"SELECT nick FROM `online` WHERE fr_id='"..getElementData(player,"faction").."'")
+		end
+	end,
+	sendCallback = function(qh,player,msg,ooc)
+		local result = dbPoll(qh,0)
+		if result then
+			local rank = getElementData(player,"rank")
+			local name = getElementData(player,"nick")
+			local factionid = getElementData(player,"faction")
+			local playersend = {}
+			for col,row in ipairs(result) do
+				if ooc then
+					triggerClientEvent(getPlayerByNick(row.nick),"outputChatMessage",player,"(( РАЦИЯ: "..faction.list[factionid].ranks[rank].name.." "..name..": "..msg.." ))")
+				else
+					triggerClientEvent(getPlayerByNick(row.nick),"outputChatMessage",player,"РАЦИЯ: "..faction.list[factionid].ranks[rank].name.." "..name..": "..msg)
+				end
+				
+			end
+		end
+	end,
+	rank = {
+		set = function(frid,id,prop,state)
+			if prop == "name" then
+				faction.list[frid].ranks[id].name = state
+			elseif string.find(prop,"perm") then
+				if prop == "perm_invite" then
+					
+				elseif prop == "perm_uninvite" then
 
-function FactionSetRankName(pl,rank,name)
-	if getElementData(pl,"leader") == 1 then
-		
-	end
-	outputDebugString("test")
-end	
+				elseif prop == "perm_giverank" then
+
+				end
+			end
+		end
+	}
+}
+
 
 function FactionGetRankNames(res)
 	if res == resource then
-		local qh = dbQuery(parseFactionRanks,dbHandle,"SELECT * FROM `faction`")
+		local qh = dbQuery(parseFactionRanks,dbHandle,"SELECT * FROM `factions`")
 	end
 end
 addEventHandler("onResourceStart",root,FactionGetRankNames)
@@ -42,17 +61,12 @@ function parseFactionRanks(qh)
 	if result then
 		for i,row in ipairs(result) do
 			local id = row.id
-			Faction_list[id] = {} -- для того, чтобы не жаловалось на след. строки
-			Faction_list[id]["name"] = row.name
-			Faction_list[id]["budget"] = row.budget
-			Faction_list[id]["salary"] = row.salary
-			Faction_list[id]["ranks"] = fromJSON(row.rank_names)
+			faction.list[id] = {} -- для того, чтобы не жаловалось на след. строки
+			faction.list[id].name = row.name
+			faction.list[id].budges = row.budget
+			faction.list[id]["ranks"] = fromJSON(row.ranks)
 		end
 	end
-end
-
-function getElementFaction(element)
-	return getElementData(element,"faction") or false
 end
 
 function parseFactionCars(qh)
@@ -76,3 +90,15 @@ function FactionUpdateCars()
 	local qh = dbQuery(parseFactionCars,getDbConnection(),"SELECT * FROM `vehicles` WHERE frid")
 end
 addEventHandler("onResourceStart",resourceRoot,FactionUpdateCars)
+
+function isHavePermission(player,perm)
+	local pfr = getElementData(player,"frid")
+	local prank = getElementData(player,"rank")
+	if perm == "invite" then
+		return faction.list[pfr].ranks[prank].invite
+	elseif perm == "uninvite" then
+		return faction.list[pfr].ranks[prank].uninvite
+	else
+		return faction.list[pfr].ranks[prank].giverank				
+	end
+end

@@ -76,10 +76,6 @@ function math.percent(number,percent)
 end
 
 function itHaveVehicleKeys(player,vehicle)
-    if getElementType(player) == "vehicle" and client then
-        vehicle = player
-        player = client
-    end
     local keys = false
     if getElementData(vehicle,"frid") then
         if getElementData(vehicle,"frid") == getElementData(player,"faction") then

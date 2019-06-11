@@ -8,7 +8,7 @@ local gasStationsCords = {
 local gasStations = {}
 
 function engineCheck(theVehicle)
-    if itHaveVehicleKeys(theVehicle) then
+    if itHaveVehicleKeys(lp,theVehicle) then
         vehCheck(theVehicle)
     end
 end
@@ -29,7 +29,7 @@ function beltCheck(theVehicle)
 end
 
 function lightCheck(theVehicle)
-    if itHaveVehicleKeys(theVehicle) then
+    if itHaveVehicleKeys(lp,theVehicle) then
         local state = getVehicleOverrideLights(theVehicle)
         if ( state ~= 2 ) then
             setVehicleOverrideLights ( theVehicle, 2 )
@@ -246,3 +246,26 @@ addEventHandler("openCarshopMenu",root,onCarshopMarkerHit)
 function drawCarShop()
     dxDrawText(carshopdata["shopname"],0,0)
 end
+
+
+local texturesimg = {
+	{"Images/Textures/1.png", "collisionsmoke"},
+	{"Images/Textures/2.png", "particleskid"},
+	{"Images/Textures/3.png", "cloudmasked"},
+	{"Images/Textures/3.png", "cardebris_01"},
+	{"Images/Textures/3.png", "cardebris_02"},
+	{"Images/Textures/3.png", "cardebris_03"},
+	{"Images/Textures/3.png", "cardebris_04"},
+	{"Images/Textures/3.png", "cardebris_05"},
+	{"Images/Textures/4.png", "headlight1"},
+	{"Images/Textures/5.png", "headlight"},
+	{"Images/Textures/3.png", "cloudhigh"}
+}
+addEventHandler("onClientResourceStart", resourceRoot, function()
+	for i = 1, #texturesimg do
+		local shader = dxCreateShader("Shaders/oldretex.fx")
+		engineApplyShaderToWorldTexture(shader, texturesimg[i][2])
+		dxSetShaderValue(shader, "gTexture", dxCreateTexture(texturesimg[i][1]))
+	end
+end)
+	

@@ -105,7 +105,6 @@ function dxDrawGrid()
 	dxDrawLine(0, screenH * 0.9, screenW, screenH * 0.9, tocolor(71,241,241))
 	dxDrawLine(0, screenH * 001, screenW, screenH * 001, tocolor(71,241,241))
 end
-addEventHandler("onClientRender",root,dxDrawGrid)
 
 function isMouseInPosition ( x, y, width, height )
 	if ( not isCursorShowing( ) ) then
@@ -175,3 +174,25 @@ function RGBToHex(red, green, blue, alpha)
 	end
 
 end
+
+gDownloadQueueList = {}
+_downloadFile = downloadFile
+
+function downloadFile(file)
+    if #gDownloadQueueList == 0 then
+        gDownloadQueueList[1] = file
+        _downloadFile(file)
+    end
+end
+
+function onClientEndLoad(file,success)
+    if gDownloadQueueList[1] == file then
+        gDownloadQueueList[1] = nil
+        table.sort(gDownloadQueueList)
+        _downloadFile(gDownloadQueueList[1])
+        if not(success) then
+            outputDebugString("Error download the file "..file.."!",2)
+        end
+    end
+end
+addEventHandler("onClientFileDownloadComplete",root,onClientEndLoad)

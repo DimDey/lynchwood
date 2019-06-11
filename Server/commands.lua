@@ -179,7 +179,7 @@ function cmd_r(args)
 		for i=1,#args do
 			msg = msg.." "..args[i]
 		end
-		FactionSendMessage(source,msg)
+		faction.send(source,msg)
 	end
 end
 function cmd_rb(args)
@@ -188,15 +188,13 @@ function cmd_rb(args)
 		for i=1,#args do
 			msg = msg.." "..args[i]
 		end
-		FactionSendMessage(source,msg,true)
+		faction.send(source,msg,true)
 	end
 end
 
 function cmd_invite(args)
-	if isLeader(source) then
+	if isHavePermission(source,"invite") then
 
-	else
-		triggerClientEvent()
 	end
 end
 
@@ -207,6 +205,29 @@ end
 function cmd_setrank(args)
 	FactionSetRankName(source,args[1],args[2])
 end	
+
+function cmd_giverank(args)
+	local player = args[1]
+	player = getPlayer(player)
+	if player then
+		local rank = args[2]
+		if getElementData(source,"rank") > rank then
+			if isHavePermission(source,"giverank") then
+				setElementData(player,"rank",rank)
+				local qh = dbQuery(function(qh,player,rank)
+					if result then
+						for _,row in ipairs(result) do
+							local data = fromJSON(row.characterdata)
+							data.rank = rank
+							dbExec(getDBConnection(),"UPDATE `accounts` SET `characterData` = '"..data.."' WHERE nick='"..getElementData(player,"nick").."';")
+						end
+					end
+				end,{player,rank},dbHandle,"SELECT characterdata FROM `accounts` WHERE nick='"..getElementData(player,"nick")"'")
+				
+			end
+		end
+	end
+end
 
 function cmd_members()
 	if getElementData(source,"faction") ~= 0 then
