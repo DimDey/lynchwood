@@ -47,3 +47,4 @@ function removeNick()
     setPlayerNametagShowing ( source, false ) 
 end 
 addEventHandler ("onPlayerJoin", root, removeNick) 
+

@@ -43,9 +43,9 @@ function authCallback(qh,client,pass)
 	if result then
 		for i,row in ipairs(result) do
 			if row.pass == pass then
-				local playerCol = createColSphere(104.91021728516, 14.568968772888, 0.63683533668518,1)
-				attachElements(playerCol,client)
-				spawnPlayer(client,104.91021728516, 14.568968772888, 0.63683533668518,0,98,0,0)
+				triggerClientEvent(client,"addServerInt",client,ped,test)
+				triggerClientEvent(client,"addServerInt",client,veh,test2)
+				spawnPlayer(client,4.4616875648499, 0.60940212011337, 3.1171875,0,98,0,0)
 				setCameraTarget(client,client)
 				triggerClientEvent(client,"successLogIn",client)
 				dbExec(dbHandle,"INSERT INTO `online` (`id`, `nick`, `fr_id`, `alevel`) VALUES ('"..row.id.."', '"..row.nick.."', '"..row.faction.."', '"..row.admin.."')")
@@ -73,3 +73,12 @@ addEvent("onEndCreateCharacter", true)
 addEventHandler("onPlayerLogIn", getRootElement(), onAuth)
 addEventHandler("onPlayerStartSignUp", getRootElement(), onSignIn)
 addEventHandler( "onPlayerQuit", getRootElement(), onPlayerOff )
+
+ped = createPed(120,0,0,5.00)
+veh = createVehicle(400,0,4,5)
+function test()
+	outputDebugString("click to ped")
+end
+function test2()
+	outputDebugString("click to veh")
+end
